@@ -86,8 +86,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = ep3$(EXEEXT) teste$(EXEEXT) teste2$(EXEEXT) \
-	teste3$(EXEEXT) teste4$(EXEEXT) teste5$(EXEEXT)
+bin_PROGRAMS = ep3$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -106,21 +105,6 @@ PROGRAMS = $(bin_PROGRAMS)
 am_ep3_OBJECTS = ep3.$(OBJEXT)
 ep3_OBJECTS = $(am_ep3_OBJECTS)
 ep3_DEPENDENCIES = xwc.o fisica.o display.o
-am_teste_OBJECTS = teste.$(OBJEXT) xwc.$(OBJEXT)
-teste_OBJECTS = $(am_teste_OBJECTS)
-teste_DEPENDENCIES =
-am_teste2_OBJECTS = teste2.$(OBJEXT)
-teste2_OBJECTS = $(am_teste2_OBJECTS)
-teste2_DEPENDENCIES = xwc.o
-am_teste3_OBJECTS = teste3.$(OBJEXT)
-teste3_OBJECTS = $(am_teste3_OBJECTS)
-teste3_DEPENDENCIES = xwc.o
-am_teste4_OBJECTS = teste4.$(OBJEXT)
-teste4_OBJECTS = $(am_teste4_OBJECTS)
-teste4_DEPENDENCIES = xwc.o
-am_teste5_OBJECTS = teste5.$(OBJEXT)
-teste5_OBJECTS = $(am_teste5_OBJECTS)
-teste5_DEPENDENCIES = xwc.o
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -149,10 +133,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(ep3_SOURCES) $(teste_SOURCES) $(teste2_SOURCES) \
-	$(teste3_SOURCES) $(teste4_SOURCES) $(teste5_SOURCES)
-DIST_SOURCES = $(ep3_SOURCES) $(teste_SOURCES) $(teste2_SOURCES) \
-	$(teste3_SOURCES) $(teste4_SOURCES) $(teste5_SOURCES)
+SOURCES = $(ep3_SOURCES)
+DIST_SOURCES = $(ep3_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -291,16 +273,6 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ep3_SOURCES = ep3.c
 ep3_LDADD = xwc.o fisica.o display.o
-teste_SOURCES = teste.c xwc.c xwc.h
-teste_LDADD = $(X_LIBS) $(X_EXTRA_LIBS)
-teste2_SOURCES = teste2.c
-teste2_LDADD = xwc.o
-teste3_SOURCES = teste3.c samp.xpm mascara.xpm
-teste3_LDADD = xwc.o
-teste4_SOURCES = teste4.c
-teste4_LDADD = xwc.o
-teste5_SOURCES = teste5.c
-teste5_LDADD = xwc.o
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -401,26 +373,6 @@ ep3$(EXEEXT): $(ep3_OBJECTS) $(ep3_DEPENDENCIES) $(EXTRA_ep3_DEPENDENCIES)
 	@rm -f ep3$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(ep3_OBJECTS) $(ep3_LDADD) $(LIBS)
 
-teste$(EXEEXT): $(teste_OBJECTS) $(teste_DEPENDENCIES) $(EXTRA_teste_DEPENDENCIES) 
-	@rm -f teste$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(teste_OBJECTS) $(teste_LDADD) $(LIBS)
-
-teste2$(EXEEXT): $(teste2_OBJECTS) $(teste2_DEPENDENCIES) $(EXTRA_teste2_DEPENDENCIES) 
-	@rm -f teste2$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(teste2_OBJECTS) $(teste2_LDADD) $(LIBS)
-
-teste3$(EXEEXT): $(teste3_OBJECTS) $(teste3_DEPENDENCIES) $(EXTRA_teste3_DEPENDENCIES) 
-	@rm -f teste3$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(teste3_OBJECTS) $(teste3_LDADD) $(LIBS)
-
-teste4$(EXEEXT): $(teste4_OBJECTS) $(teste4_DEPENDENCIES) $(EXTRA_teste4_DEPENDENCIES) 
-	@rm -f teste4$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(teste4_OBJECTS) $(teste4_LDADD) $(LIBS)
-
-teste5$(EXEEXT): $(teste5_OBJECTS) $(teste5_DEPENDENCIES) $(EXTRA_teste5_DEPENDENCIES) 
-	@rm -f teste5$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(teste5_OBJECTS) $(teste5_LDADD) $(LIBS)
-
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -428,12 +380,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ep3.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/teste.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/teste2.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/teste3.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/teste4.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/teste5.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xwc.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
