@@ -1,0 +1,25 @@
+================================================================================================
+
+                                    README
+
+================================================================================================
+
+
+Esse diretório contém o que foi desenvolvido na segunda fase do projeto 
+para a disciplina MAC0216 - Técnicas de programação 1.
+Nessa fase mostramos na tela, com animação, o movimento das naves e 
+projéteis calculados com as rotinas da fase 1. Para isso estamos usando a biblioteca gráfica xwc.
+
+Integrantes: 
+Gustavo de Medeiros Carlos <gustavo.10.dmc@usp.br> NUSP: 11276298
+Luiza Barros Reis Soezima <lbrsoezima@usp.br> NUSP: 11221842
+Marcos Siolin Martins <siolinm@usp.br> NUSP: 11221709
+
+Para rodar:
+  1 - Executar ./build.sh 
+  (vai rodar ./configure e make)
+  As bibliotecas libxpm4 e libxpm-dev são necessárias
+  2 - Executar ./run.sh
+  (vai rodar ./ep3 <rodarcasos.txt)
+  no arquivo rodarcasos.txt você pode espeficar o caso teste que será rodado 
+  (6 ou 7 porque são os únicos que são legais)
