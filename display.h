@@ -5,7 +5,7 @@
 #include "fisica.h"
 
 #define WIDTH 1000
-#define HEIGHT 500
+#define HEIGHT 600
 #define FATOR 100000
 
 /* Quantidade de rotacoes do sprite */

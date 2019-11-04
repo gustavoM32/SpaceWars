@@ -104,7 +104,7 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_ep3_OBJECTS = ep3.$(OBJEXT)
 ep3_OBJECTS = $(am_ep3_OBJECTS)
-ep3_DEPENDENCIES = xwc.o fisica.o display.o
+ep3_DEPENDENCIES = xwc.o fisica.o display.o io.o tick.o
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -272,7 +272,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ep3_SOURCES = ep3.c
-ep3_LDADD = xwc.o fisica.o display.o
+ep3_LDADD = xwc.o fisica.o display.o io.o tick.o
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 

@@ -52,7 +52,7 @@ void imprimeSprite(PIC dest, Sprite s, int width, int height, double pos[2]) {
 void imprimeRot(PIC dest, Sprite s[], int dim, double pos[2], double vel[2]) {
     double novaPos[2];
     transforma(pos, novaPos);
-    printf("(%7.2lf, %7.2lf) | ", novaPos[0], novaPos[1]);
+    //printf("(%7.2lf, %7.2lf) | ", novaPos[0], novaPos[1]);
     int dir = calculaDirecaoN(vel);
     imprimeSprite(dest, s[dir], dim, dim, novaPos);
 }
@@ -62,11 +62,10 @@ void imprimaObjetos(PIC pic) {
     double novaPos[2];
     transforma(planeta.pos, novaPos);
     imprimeSprite(pic, planetaS, 100, 100, novaPos);
-
     imprimeRot(pic, naves[0], 50, nave1.pos, nave1.vel);
     imprimeRot(pic, naves[1], 50, nave2.pos, nave2.vel);
     for (i = 0; i < nProjeteis; i++)
         imprimeRot(pic, projetil, 50, projeteis[i].pos, projeteis[i].vel);
-    
-    printf("\n");
+
+    //printf("\n");
 }
