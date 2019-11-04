@@ -4,6 +4,7 @@
 #include "display.h"
 #include "objetos.h"
 #include "io.h"
+#include "fisica.h"
 
 static long int tick = 0;
 
@@ -24,6 +25,7 @@ void gameLoop() {
 
     while (1) {
         atualizaPosicoes();
+        detectaColisoes();
         if (tick % TICKS_PER_FRAME == 0) {
             PutPic(rasc, fundo, 0, 0, WIDTH, HEIGHT, 0, 0);
             imprimaObjetos(rasc);

@@ -126,4 +126,8 @@ void calculoDosMovimentos(double massa, double pos[2], double vel[2], double res
     Executa o passo da simulação para todos os corpos.
 */
 void atualizaPosicoes();
+
+int colidiu(double pos1[2], double r1, double pos2[2], double r2);
+
+void detectaColisoes();
 #endif

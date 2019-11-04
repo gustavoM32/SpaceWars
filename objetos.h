@@ -15,18 +15,22 @@ typedef struct planeta {
 typedef struct nave {
     char nome[80];
     double massa;
+    double raio;
     double pos[2];
     double vel[2];
     double res[2];
     double dir[2];
+    int alive;
 } Nave;
 
 typedef struct projetil {
     double massa;
+    double raio;
     double pos[2];
     double vel[2];
     double res[2];
     double duracaoProjetil;
+    int alive;
 } Projetil;
 
 typedef struct explosao {
