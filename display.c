@@ -3,6 +3,7 @@
 #include "objetos.h"
 #include "display.h"
 #include "fisica.h"
+#include "tick.h"
 
 void carregaSprite(PIC win, char nome[], int width, int height, Sprite *s) {
     char path[] = "assets/sprites/";
@@ -12,7 +13,7 @@ void carregaSprite(PIC win, char nome[], int width, int height, Sprite *s) {
     s->img = ReadPic(win, nomeSprite, s->mask);
 }
 
-void carregaSprites(PIC win, char nome[], int width, int height, Sprite s[]) {
+void carregaRots(PIC win, char nome[], int width, int height, Sprite s[]) {
     int i;
     for (i = 0; i < NUM_ROTACOES; i++) {
         char nomeRot[256];
@@ -21,15 +22,38 @@ void carregaSprites(PIC win, char nome[], int width, int height, Sprite s[]) {
     }
 }
 
+void carregaAnims(PIC win, char nome[], int frames, int width, int height, Sprite s[]) {
+    int i;
+    for (i = 0; i < frames; i++) {
+        char nomeFrame[256];
+        sprintf(nomeFrame, "%s - %d", nome, i);
+        carregaSprite(win, nomeFrame, width, height, &(s[i]));
+    }
+}
+
 void carregaObjetos(PIC win) {
     printf("Carregando planeta...\n");
     carregaSprite(win, "planeta", 100, 100, &planetaS);
     printf("Carregando nave1...\n");
-    carregaSprites(win, "nave1", 50, 50, naves[0]);
+    carregaRots(win, "nave1", 50, 50, naves[0]);
     printf("Carregando nave2...\n");
-    carregaSprites(win, "nave2", 50, 50, naves[1]);
+    carregaRots(win, "nave2", 50, 50, naves[1]);
     printf("Carregando projetil1...\n");
-    carregaSprites(win, "projetil1", 50, 50, projetil);
+    carregaRots(win, "projetil1", 50, 50, projetil);
+    printf("Carregando explosion...\n");
+    carregaAnims(win, "exp/explosion", 15, 50, 60, explosao);
+}
+
+void criaAnimacao(double pos[], int width, int height, int frames, int duracao, Sprite *s) {
+    animacoes[nAnimacoes].pos[0] = pos[0];
+    animacoes[nAnimacoes].pos[1] = pos[1];
+    animacoes[nAnimacoes].width = width;
+    animacoes[nAnimacoes].height = height;
+    animacoes[nAnimacoes].frames = frames;
+    animacoes[nAnimacoes].duracao = duracao;
+    animacoes[nAnimacoes].inicio = getTick();
+    animacoes[nAnimacoes].s = s;
+    nAnimacoes++;
 }
 
 int calculaDirecaoN(double dir[2]) {
@@ -57,6 +81,15 @@ void imprimeRot(PIC dest, Sprite s[], int dim, double pos[2], double vel[2]) {
     imprimeSprite(dest, s[dir], dim, dim, novaPos);
 }
 
+void imprimeAnims(PIC dest, Animacao a) {
+    double novaPos[2];
+    int ticksPerSecond = FRAMES_PER_SECOND * TICKS_PER_FRAME;
+    int frame = (getTick() - a.inicio) * a.frames / ticksPerSecond / a.duracao;
+    if (frame >= a.frames) return;
+    transforma(a.pos, novaPos);
+    imprimeSprite(dest, a.s[frame], a.width, a.height, novaPos);
+}
+
 void imprimaObjetos(PIC pic) {
     int i;
     double novaPos[2];
@@ -67,5 +100,7 @@ void imprimaObjetos(PIC pic) {
     for (i = 0; i < nProjeteis; i++)
         imprimeRot(pic, projetil, 50, projeteis[i].pos, projeteis[i].vel);
 
-    //printf("\n");
+    for (i = 0; i < nAnimacoes; i++) {
+        imprimeAnims(pic, animacoes[i]);
+    }
 }

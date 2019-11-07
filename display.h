@@ -10,17 +10,30 @@
 
 /* Quantidade de rotacoes do sprite */
 #define NUM_ROTACOES 32
-#define NUM_FRAMES 32
+#define MAX_FRAMES 32
+#define MAX_ANIMS 128
 
 typedef struct sprite {
     PIC img;
     MASK mask;
 } Sprite;
 
+typedef struct animacao {
+    double pos[2];
+    int frames;
+    int width;
+    int height;
+    double duracao;
+    int inicio;
+    Sprite *s;
+} Animacao;
+
 Sprite naves[2][NUM_ROTACOES];
 Sprite projetil[NUM_ROTACOES];
 Sprite planetaS;
-
+Sprite explosao[MAX_FRAMES];
+int nAnimacoes;
+Animacao animacoes[MAX_ANIMS];
 
 /*
     carregaSprite()
@@ -59,6 +72,8 @@ void carregaSprites(PIC win, char nome[], int width, int height, Sprite s[]);
         win - janela de exibição
 */
 void carregaObjetos(PIC win);
+
+void criaAnimacao(double pos[], int width, int height, int frames, int duracao, Sprite *s);
 
 /*
     calculaDirecaoN()

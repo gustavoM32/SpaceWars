@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "io.h"
 #include "objetos.h"
+#include "display.h"
+
 /*
     leiaArquivo()
 
@@ -64,6 +66,8 @@ int leiaArquivo() {
     }
 
     fclose(arquivo);
+
+    nAnimacoes = 0;
 
     return nProjeteis;
 }

@@ -121,8 +121,6 @@ int colidiu(double pos1[2], double r1, double pos2[2], double r2) {
     return calculaDistancia(pos1, pos2) <= r1*FATOR + r2*FATOR;
 }
 
-int kkk = 0;
-
 void detectaColisoes() {
     int i, j;
     if (colidiu(planeta.pos, planeta.raio, nave1.pos, nave1.raio)) nave1.alive = 0;
@@ -143,7 +141,6 @@ void detectaColisoes() {
         if (colidiu(nave1.pos, nave1.raio, projeteis[i].pos, projeteis[i].raio)) {
             nave1.alive = 0;
             projeteis[i].alive = 0;
-            printf("MORREU TD MUNDO %d\n", kkk++);
         }
     }
 

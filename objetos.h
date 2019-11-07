@@ -4,7 +4,7 @@
 #include "xwc.h"
 #include "display.h"
 
-#define MAXN 10000
+#define MAX_OBJETOS 1024
 
 typedef struct planeta {
     double massa;
@@ -21,6 +21,7 @@ typedef struct nave {
     double res[2];
     double dir[2];
     int alive;
+    int explodiu;
 } Nave;
 
 typedef struct projetil {
@@ -34,16 +35,10 @@ typedef struct projetil {
     int alive;
 } Projetil;
 
-typedef struct explosao {
-    PIC imgs[NUM_ROTACOES];
-    MASK masks[NUM_ROTACOES];
-} Explosao;
-
-int nProjeteis;
 Planeta planeta;
 Nave nave1, nave2;
-Projetil projeteis[MAXN];
-//Explosao explosao;
+int nProjeteis;
+Projetil projeteis[MAX_OBJETOS];
 
 void mataObjetos();
 
