@@ -8,6 +8,10 @@
 
 static long int tick = 0;
 
+int getTick() {
+    return tick;
+}
+
 void gameLoop() {
     int i;
     WINDOW *w;
@@ -26,6 +30,7 @@ void gameLoop() {
     while (1) {
         atualizaPosicoes();
         detectaColisoes();
+        mataObjetos();
         if (tick % TICKS_PER_FRAME == 0) {
             PutPic(rasc, fundo, 0, 0, WIDTH, HEIGHT, 0, 0);
             imprimaObjetos(rasc);

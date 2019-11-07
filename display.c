@@ -62,8 +62,8 @@ void imprimaObjetos(PIC pic) {
     double novaPos[2];
     transforma(planeta.pos, novaPos);
     imprimeSprite(pic, planetaS, 100, 100, novaPos);
-    imprimeRot(pic, naves[0], 50, nave1.pos, nave1.vel);
-    imprimeRot(pic, naves[1], 50, nave2.pos, nave2.vel);
+    if (nave1.alive) imprimeRot(pic, naves[0], 50, nave1.pos, nave1.vel);
+    if (nave2.alive) imprimeRot(pic, naves[1], 50, nave2.pos, nave2.vel);
     for (i = 0; i < nProjeteis; i++)
         imprimeRot(pic, projetil, 50, projeteis[i].pos, projeteis[i].vel);
 

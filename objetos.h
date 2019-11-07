@@ -29,7 +29,8 @@ typedef struct projetil {
     double pos[2];
     double vel[2];
     double res[2];
-    double duracaoProjetil;
+    double duracao;
+    int criado;
     int alive;
 } Projetil;
 
@@ -43,4 +44,7 @@ Planeta planeta;
 Nave nave1, nave2;
 Projetil projeteis[MAXN];
 //Explosao explosao;
+
+void mataObjetos();
+
 #endif

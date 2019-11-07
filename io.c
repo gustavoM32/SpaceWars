@@ -43,24 +43,24 @@ int leiaArquivo() {
     planeta.pos[0] = planeta.pos[1] = 0.0;
     fscanf(arquivo, "%lf %lf %lf", &(planeta.raio), &(planeta.massa), &tempoSimulacao);
 
-    // Raio do planeta será fixado em 100
-    planeta.raio = 100;
+    planeta.raio = 45;
 
     fscanf(arquivo, "%s %lf %lf %lf %lf %lf", &(nave1.nome), &(nave1.massa), &(nave1.pos[0]), &(nave1.pos[1]), &(nave1.vel[0]), &(nave1.vel[1]));
     fscanf(arquivo, "%s %lf %lf %lf %lf %lf", &(nave2.nome), &(nave2.massa), &(nave2.pos[0]), &(nave2.pos[1]), &(nave2.vel[0]), &(nave2.vel[1]));
 
     nave1.alive = 1;
-    nave1.raio = 25;
+    nave1.raio = 15;
     nave2.alive = 1;
-    nave2.raio = 25;
+    nave2.raio = 15;
 
     fscanf(arquivo, "%d %lf", &nProjeteis, &duracaoProjetil);
 
     for(i = 0; i < nProjeteis; i++){
-        projeteis[i].duracaoProjetil = duracaoProjetil;
+        projeteis[i].duracao = duracaoProjetil;
         fscanf(arquivo, "%lf %lf %lf %lf %lf", &(projeteis[i].massa), &(projeteis[i].pos[0]), &(projeteis[i].pos[1]), &(projeteis[i].vel[0]), &(projeteis[i].vel[1]));
         projeteis[i].alive = 1;
-        projeteis[i].raio = 10;
+        projeteis[i].raio = 4;
+        projeteis[i].criado = 0;
     }
 
     fclose(arquivo);
