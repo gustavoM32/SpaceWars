@@ -13,6 +13,22 @@ int getTick() {
 }
 
 void gameLoop() {
+    tick = 0;
+    while (1) {
+        atualizaPosicoes();
+        detectaColisoes();
+        mataObjetos();
+        if (tick % TICKS_PER_FRAME == 0) {
+            PutPic(rasc, fundo, 0, 0, WIDTH, HEIGHT, 0, 0);
+            imprimaObjetos(rasc);
+            PutPic(w, rasc, 0, 0, WIDTH, HEIGHT, 0, 0);
+        }
+        usleep(1000000.0 * passoSimulacao);
+        tick++;
+    }
+}
+
+void game() {
     int i;
     WINDOW *w;
     PIC rasc;
@@ -27,18 +43,7 @@ void gameLoop() {
     fundo = ReadPic(w, "assets/background.xpm", NULL);
     printf("Passo simulação = %lf\n", passoSimulacao);
 
-    while (1) {
-        atualizaPosicoes();
-        detectaColisoes();
-        mataObjetos();
-        if (tick % TICKS_PER_FRAME == 0) {
-            PutPic(rasc, fundo, 0, 0, WIDTH, HEIGHT, 0, 0);
-            imprimaObjetos(rasc);
-            PutPic(w, rasc, 0, 0, WIDTH, HEIGHT, 0, 0);
-        }
-        usleep(1000000.0 * passoSimulacao);
-        tick++;
-    }
+    gameLoop();
 
     CloseGraph();
 }

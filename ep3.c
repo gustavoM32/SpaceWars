@@ -10,6 +10,6 @@
 #include "tick.h"
 
 int main() {
-    gameLoop();
+    game();
     return EXIT_SUCCESS;
 }
