@@ -1,6 +1,15 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#include <stddef.h>
+
+/*
+    mallocSafe()
+
+    Fonte:  http://www.ime.usp.br/~pf/algoritmos/aulas/aloca.html
+*/
+void *mallocSafe(size_t tam);
+
 /*
     mod()
 
