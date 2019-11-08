@@ -96,18 +96,6 @@ void addForcaGrav(double massa1, double pos1[2], double massa2, double pos2[2], 
 void calculaResultante(double massa, double pos[2], double resultante[2]);
 
 /*
-    mod()
-
-    Calcula a módulo b, podendo a ser negativo, de maneira
-    que 0 <= a mod b < b.
-
-    Parâmetros:
-        a - inteiro qualquer
-        b - inteiro positivo
-*/
-int mod(int a, int b);
-
-/*
     calculoDosMovimentos()
 
     Atualiza a velocidade e a posição de um corpo.

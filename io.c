@@ -47,13 +47,11 @@ int leiaArquivo() {
 
     planeta.raio = 45;
 
-    fscanf(arquivo, "%s %lf %lf %lf %lf %lf", &(nave1.nome), &(nave1.massa), &(nave1.pos[0]), &(nave1.pos[1]), &(nave1.vel[0]), &(nave1.vel[1]));
-    fscanf(arquivo, "%s %lf %lf %lf %lf %lf", &(nave2.nome), &(nave2.massa), &(nave2.pos[0]), &(nave2.pos[1]), &(nave2.vel[0]), &(nave2.vel[1]));
-
-    nave1.alive = 1;
-    nave1.raio = 15;
-    nave2.alive = 1;
-    nave2.raio = 15;
+    for (i = 0; i < 2; i++) {
+        fscanf(arquivo, "%s %lf %lf %lf %lf %lf", &(nave[i].nome), &(nave[i].massa), &(nave[i].pos[0]), &(nave[i].pos[1]), &(nave[i].vel[0]), &(nave[i].vel[1]));
+        nave[i].alive = 1;
+        nave[i].raio = 15;
+    }
 
     fscanf(arquivo, "%d %lf", &nProjeteis, &duracaoProjetil);
 

@@ -3,6 +3,8 @@
 #include "fisica.h"
 #include "display.h"
 #include "objetos.h"
+#include "util.h"
+#include "debug.h"
 
 void transforma(double coor[2], double nova[2]) {
     double fator = FATOR;
@@ -62,23 +64,15 @@ void calculaResultante(double massa, double pos[2], double resultante[2]) {
     int i;
     resultante[0] = resultante[1] = 0;
     /* adiciona forças gravitacionais à resultante do corpo */
-    addForcaGrav(massa, pos, nave1.massa, nave1.pos, resultante);
-    addForcaGrav(massa, pos, nave2.massa, nave2.pos, resultante);
     addForcaGrav(massa, pos, planeta.massa, planeta.pos, resultante);
 
-    for (i = 0; i < nProjeteis; i++)
+    for (i = 0; i < 2; i++) {
+        addForcaGrav(massa, pos, nave[i].massa, nave[i].pos, resultante);
+    }
+
+    for (i = 0; i < nProjeteis; i++) {
         addForcaGrav(massa, pos, projeteis[i].massa, projeteis[i].pos, resultante);
-}
-
-/*
-    mod(int a, int b)
-
-    Recebe um inteiro 'a' e um inteiro 'b' retorna o valor
-    de a % b.
-
-*/
-int mod(int a, int b) {
-    return a > 0 ? a % b : (a % b + b) % b;
+    }
 }
 
 void calculoDosMovimentos(double massa, double pos[2], double vel[2], double resultante[2]) {
@@ -104,17 +98,21 @@ void calculoDosMovimentos(double massa, double pos[2], double vel[2], double res
 
 void atualizaPosicoes() {
     int i;
-    calculaResultante(nave1.massa, nave1.pos, nave1.res);
-    calculaResultante(nave2.massa, nave2.pos, nave2.res);
+    for (i = 0; i < 2; i++) {
+        calculaResultante(nave[i].massa, nave[i].pos, nave[i].res);
+    }
 
-    for (i = 0; i < nProjeteis; i++)
+    for (i = 0; i < nProjeteis; i++) {
         calculaResultante(projeteis[i].massa, projeteis[i].pos, projeteis[i].res);
+    }
 
-    calculoDosMovimentos(nave1.massa, nave1.pos, nave1.vel, nave1.res);
-    calculoDosMovimentos(nave2.massa, nave2.pos, nave2.vel, nave2.res);
+    for (i = 0; i < 2; i++) {
+        calculoDosMovimentos(nave[i].massa, nave[i].pos, nave[i].vel, nave[i].res);
+    }
 
-    for (i = 0; i < nProjeteis; i++)
+    for (i = 0; i < nProjeteis; i++) {
         calculoDosMovimentos(projeteis[i].massa, projeteis[i].pos, projeteis[i].vel, projeteis[i].res);
+    }
 }
 
 int colidiu(double pos1[2], double r1, double pos2[2], double r2) {
@@ -123,31 +121,30 @@ int colidiu(double pos1[2], double r1, double pos2[2], double r2) {
 
 void detectaColisoes() {
     int i, j;
-    if (colidiu(planeta.pos, planeta.raio, nave1.pos, nave1.raio)) nave1.alive = 0;
-    if (colidiu(planeta.pos, planeta.raio, nave2.pos, nave2.raio)) nave2.alive = 0;
+    for (i = 0; i < 2; i++) {
+        if (colidiu(planeta.pos, planeta.raio, nave[i].pos, nave[i].raio)) {
+            nave[i].alive = 0;
+            db(printf("Nave %d colidiu com o planeta\n", i+1));
+        }
+    }
 
     for (i = 0; i < nProjeteis; i++) {
         if (colidiu(planeta.pos, planeta.raio, projeteis[i].pos, projeteis[i].raio)) projeteis[i].alive = 0;
     }
 
-    if (colidiu(nave1.pos, nave1.raio, nave2.pos, nave2.raio)) {
-        nave1.alive = 0;
-        nave2.alive = 0;
+    if (colidiu(nave[0].pos, nave[0].raio, nave[1].pos, nave[1].raio)) {
+        nave[0].alive = 0;
+        nave[1].alive = 0;
+        db(printf("Nave 1 colidiu com a nave 2\n"));
     }
 
     for (i = 0; i < nProjeteis; i++) {
-        //printf("Testando colesão\n");
-        //printf("%lf %lf %lf %lf %lf %lf\n", nave1.pos[0], nave1.pos[1], nave1.raio, projeteis[i].pos[0], projeteis[i].pos[1], projeteis[i].raio);
-        if (colidiu(nave1.pos, nave1.raio, projeteis[i].pos, projeteis[i].raio)) {
-            nave1.alive = 0;
-            projeteis[i].alive = 0;
-        }
-    }
-
-    for (i = 0; i < nProjeteis; i++) {
-        if (colidiu(nave2.pos, nave2.raio, projeteis[i].pos, projeteis[i].raio)) {
-            nave2.alive = 0;
-            projeteis[i].alive = 0;
+        for (j = 0; j < 2; j++) {
+            if (colidiu(nave[j].pos, nave[j].raio, projeteis[i].pos, projeteis[i].raio)) {
+                nave[j].alive = 0;
+                projeteis[i].alive = 0;
+                db(printf("Nave %d colidiu com um projetil\n", i+1));
+            }
         }
     }
 

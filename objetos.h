@@ -36,7 +36,7 @@ typedef struct projetil {
 } Projetil;
 
 Planeta planeta;
-Nave nave1, nave2;
+Nave nave[2];
 int nProjeteis;
 Projetil projeteis[MAX_OBJETOS];
 
