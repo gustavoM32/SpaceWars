@@ -1,6 +1,8 @@
 #ifndef FISICA_H
 #define FISICA_H
 
+#include "objetos.h"
+
 #define PI 3.14159265
 #define EPSILON 1.0e-10
 #define MAX_ACC 1.0e7
@@ -43,18 +45,6 @@ double calcNorma(double vetor[2]);
 double calculaDistancia(double pos1[2], double pos2[2]);
 
 /*
-    somaVetores()
-
-    Soma dois vetores.
-
-    Parâmetros:
-        f1[] - vetor 1
-        f2[] - vetor 2
-        soma[] - vetor resultado
-*/
-void somaVetores(double f1[2], double f2[2], double soma[2]);
-
-/*
     calculaDirecao()
 
     Calcula o vetor unitário com a mesma direção da reta
@@ -81,32 +71,7 @@ vetor res.
         pos2[] - vetor posição do corpo 2
         res[] - vetor onde é adicionado a força calculada
 */
-void addForcaGrav(double massa1, double pos1[2], double massa2, double pos2[2], double res[2]);
-
-/*
-    calculaResultante()
-
-    Calcula a força resultante em um corpo.
-
-    Parâmetros:
-        massa - massa do corpo
-        pos[] - vetor posição do corpo
-        resultante[] - vetor força resultante sobre o corpo;
-*/
-void calculaResultante(double massa, double pos[2], double resultante[2]);
-
-/*
-    calculoDosMovimentos()
-
-    Atualiza a velocidade e a posição de um corpo.
-
-    Parâmetros:
-        massa - massa do corpo
-        pos[] - vetor posição do corpo
-        vel[] - vetor velocidade do corpo
-        resultante[] - vetor força resultante sobre o corpo;
-*/
-void calculoDosMovimentos(double massa, double pos[2], double vel[2], double resultante[2]);
+void addForcaGrav(Objeto *, Objeto *);
 
 /*
     atualizaPosicoes()
@@ -115,7 +80,7 @@ void calculoDosMovimentos(double massa, double pos[2], double vel[2], double res
 */
 void atualizaPosicoes();
 
-int colidiu(double pos1[2], double r1, double pos2[2], double r2);
+int colidiu(Objeto *, Objeto *);
 
 void detectaColisoes();
 #endif

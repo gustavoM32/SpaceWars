@@ -27,134 +27,80 @@ double calculaDistancia(double pos1[2], double pos2[2]) {
     return sqrt(dx * dx + dy * dy);
 }
 
-void somaVetores(double f1[2], double f2[2], double soma[2]) {
-    soma[0] = f1[0] + f2[0];
-    soma[1] = f1[1] + f2[1];
-}
-
 void calculaDirecao(double pos1[2], double pos2[2], double dir[2], double dist) {
     double dx, dy;
-    dx = pos1[0] - pos2[0];
-    dy = pos1[1] - pos2[1];
+    dx = pos2[0] - pos1[0];
+    dy = pos2[1] - pos1[1];
     dir[0] = dx / dist;
     dir[1] = dy / dist;
 }
 
-
-void addForcaGrav(double massa1, double pos1[2], double massa2, double pos2[2], double res[2]) {
-    double dist = calculaDistancia(pos1, pos2);
-    double fg;
+void addForcaGrav(Objeto *a, Objeto *b) {
+    double dist = calculaDistancia(a->pos, b->pos);
+    double fg, cfg;
     double dir[2] = {0, 0};
     if (dist > EPSILON) {
-        calculaDirecao(pos2, pos1, dir, dist);
-        fg = GRAVIDADE * massa1 * massa2 / (dist * dist);
+        calculaDirecao(a->pos, b->pos, dir, dist);
+        fg = GRAVIDADE * a->massa * b->massa / (dist * dist);
         /*
             Limita a força caso ela seja grande demais.
             Não será necessário quando as colisões forem
             detectadas.
         */
-        if (fg / massa1 > MAX_ACC) fg = massa1 * MAX_ACC;
-        res[0] += fg * dir[0];
-        res[1] += fg * dir[1];
+        cfg = fg;
+        if (cfg / a->massa > MAX_ACC) cfg = a->massa * MAX_ACC;
+        a->res[0] += cfg * dir[0];
+        a->res[1] += cfg * dir[1];
+        cfg = fg;
+        if (cfg / b->massa > MAX_ACC) cfg = b->massa * MAX_ACC;
+        b->res[0] += -(cfg * dir[0]);
+        b->res[1] += -(cfg * dir[1]);
     }
-}
-
-void calculaResultante(double massa, double pos[2], double resultante[2]) {
-    double forcaCorpo[2];
-    int i;
-    resultante[0] = resultante[1] = 0;
-    /* adiciona forças gravitacionais à resultante do corpo */
-    addForcaGrav(massa, pos, planeta.massa, planeta.pos, resultante);
-
-    for (i = 0; i < 2; i++) {
-        addForcaGrav(massa, pos, nave[i].massa, nave[i].pos, resultante);
-    }
-
-    for (i = 0; i < nProjeteis; i++) {
-        addForcaGrav(massa, pos, projeteis[i].massa, projeteis[i].pos, resultante);
-    }
-}
-
-void calculoDosMovimentos(double massa, double pos[2], double vel[2], double resultante[2]) {
-    /* aplica aceleração */
-    vel[0] += (resultante[0] / massa) * passoSimulacao;
-    vel[1] += (resultante[1] / massa) * passoSimulacao;
-
-    /* aplica velocidade */
-    pos[0] += (vel[0]) * passoSimulacao;
-    pos[1] += (vel[1]) * passoSimulacao;
-
-    /*
-        altera a posição do corpo se ele sair da tela a fim
-        de imitar um toro, será implementado em uma fase posterior
-        do projeto visto que ainda não estamos projetando os
-        objetos em uma interface gráfica
-    */
-    int supw = FATOR*WIDTH;
-    int suph = FATOR*HEIGHT;
-    pos[0] = mod(pos[0] + supw/2, supw) - supw/2;
-    pos[1] = mod(pos[1] + suph/2, suph) - suph/2;
 }
 
 void atualizaPosicoes() {
-    int i;
-    for (i = 0; i < 2; i++) {
-        calculaResultante(nave[i].massa, nave[i].pos, nave[i].res);
+    int i, j;
+    int supw = FATOR*WIDTH;
+    int suph = FATOR*HEIGHT;
+
+    for (i = 0; i < nObjetos; i++) {
+        objetos[i]->res[0] = objetos[i]->res[1] = 0;
     }
 
-    for (i = 0; i < nProjeteis; i++) {
-        calculaResultante(projeteis[i].massa, projeteis[i].pos, projeteis[i].res);
+    for (i = 0; i < nObjetos; i++) {
+        for (j = i+1; j < nObjetos; j++) {
+            addForcaGrav(objetos[i], objetos[j]);
+        }
     }
 
-    for (i = 0; i < 2; i++) {
-        calculoDosMovimentos(nave[i].massa, nave[i].pos, nave[i].vel, nave[i].res);
-    }
+    for (i = 0; i < nObjetos; i++) {
+        /* aplica aceleração */
+        objetos[i]->vel[0] += (objetos[i]->res[0] / objetos[i]->massa) * passoSimulacao;
+        objetos[i]->vel[1] += (objetos[i]->res[1] / objetos[i]->massa) * passoSimulacao;
 
-    for (i = 0; i < nProjeteis; i++) {
-        calculoDosMovimentos(projeteis[i].massa, projeteis[i].pos, projeteis[i].vel, projeteis[i].res);
+        /* aplica velocidade */
+        objetos[i]->pos[0] += (objetos[i]->vel[0]) * passoSimulacao;
+        objetos[i]->pos[1] += (objetos[i]->vel[1]) * passoSimulacao;
+
+        /* imita um toro */
+        objetos[i]->pos[0] = mod(objetos[i]->pos[0] + supw/2, supw) - supw/2;
+        objetos[i]->pos[1] = mod(objetos[i]->pos[1] + suph/2, suph) - suph/2;
     }
 }
 
-int colidiu(double pos1[2], double r1, double pos2[2], double r2) {
-    return calculaDistancia(pos1, pos2) <= r1*FATOR + r2*FATOR;
+int colidiu(Objeto *a, Objeto *b) {
+    return calculaDistancia(a->pos, b->pos) <= a->raio*FATOR + b->raio*FATOR;
 }
 
 void detectaColisoes() {
     int i, j;
-    for (i = 0; i < 2; i++) {
-        if (colidiu(planeta.pos, planeta.raio, nave[i].pos, nave[i].raio)) {
-            nave[i].alive = 0;
-            db(printf("Nave %d colidiu com o planeta\n", i+1));
-        }
-    }
-
-    for (i = 0; i < nProjeteis; i++) {
-        if (colidiu(planeta.pos, planeta.raio, projeteis[i].pos, projeteis[i].raio)) projeteis[i].alive = 0;
-    }
-
-    if (colidiu(nave[0].pos, nave[0].raio, nave[1].pos, nave[1].raio)) {
-        nave[0].alive = 0;
-        nave[1].alive = 0;
-        db(printf("Nave 1 colidiu com a nave 2\n"));
-    }
-
-    for (i = 0; i < nProjeteis; i++) {
-        for (j = 0; j < 2; j++) {
-            if (colidiu(nave[j].pos, nave[j].raio, projeteis[i].pos, projeteis[i].raio)) {
-                nave[j].alive = 0;
-                projeteis[i].alive = 0;
-                db(printf("Nave %d colidiu com um projetil\n", i+1));
+    for (i = 0; i < nObjetos; i++) {
+        for (j = i+1; j < nObjetos; j++) {
+            if (colidiu(objetos[i], objetos[j])) {
+                if (objetos[i]->tipo != PLANETA) objetos[i]->alive = 0;
+                if (objetos[j]->tipo != PLANETA) objetos[j]->alive = 0;
+                db(printf("Objeto %d colidiu com objeto %d\n", i, j));
             }
         }
     }
-
-    for (i = 0; i < nProjeteis; i++) {
-        for (j = i+1; j < nProjeteis; j++) {
-            if (colidiu(projeteis[i].pos, projeteis[i].raio, projeteis[j].pos, projeteis[j].raio)) {
-                projeteis[i].alive = 0;
-                projeteis[j].alive = 0;
-            }
-        }
-    }
-
 }

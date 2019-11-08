@@ -13,11 +13,6 @@
 #define MAX_FRAMES 32
 #define MAX_ANIMS 128
 
-typedef struct sprite {
-    PIC img;
-    MASK mask;
-} Sprite;
-
 typedef struct animacao {
     double pos[2];
     int frames;
@@ -97,7 +92,7 @@ int calculaDirecaoN(double dir[2]);
         height - altura do sprite
         pos[] - posição do objeto que o sprite representa
 */
-void imprimeSprite(PIC dest, Sprite s, int width, int height, double pos[2]);
+void imprimeSprite(PIC dest, Sprite *s, int width, int height, double pos[2]);
 
 /*
     imprimeRot()

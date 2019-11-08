@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "objetos.h"
 #include "display.h"
@@ -67,9 +68,9 @@ int calculaDirecaoN(double dir[2]) {
     return (int) angulo % NUM_ROTACOES;
 }
 
-void imprimeSprite(PIC dest, Sprite s, int width, int height, double pos[2]) {
-    SetMask(dest, s.mask);
-    PutPic(dest, s.img, 0, 0, width, height, pos[0] - width/2, pos[1] - height/2);
+void imprimeSprite(PIC dest, Sprite *s, int width, int height, double pos[2]) {
+    SetMask(dest, s->mask);
+    PutPic(dest, s->img, 0, 0, width, height, pos[0] - width/2, pos[1] - height/2);
     UnSetMask(dest);
 }
 
@@ -78,7 +79,7 @@ void imprimeRot(PIC dest, Sprite s[], int dim, double pos[2], double vel[2]) {
     transforma(pos, novaPos);
     //printf("(%7.2lf, %7.2lf) | ", novaPos[0], novaPos[1]);
     int dir = calculaDirecaoN(vel);
-    imprimeSprite(dest, s[dir], dim, dim, novaPos);
+    imprimeSprite(dest, s+dir, dim, dim, novaPos);
 }
 
 void imprimeAnims(PIC dest, Animacao a) {
@@ -87,19 +88,29 @@ void imprimeAnims(PIC dest, Animacao a) {
     int frame = (getTick() - a.inicio) * a.frames / ticksPerSecond / a.duracao;
     if (frame >= a.frames) return;
     transforma(a.pos, novaPos);
-    imprimeSprite(dest, a.s[frame], a.width, a.height, novaPos);
+    imprimeSprite(dest, a.s+frame, a.width, a.height, novaPos);
 }
 
 void imprimaObjetos(PIC pic) {
     int i;
     double novaPos[2];
-    transforma(planeta.pos, novaPos);
-    imprimeSprite(pic, planetaS, 100, 100, novaPos);
-    for (i = 0; i < 2; i++) {
-        if (nave[i].alive) imprimeRot(pic, naves[i], 50, nave[i].pos, nave[i].vel);
+    transforma(planeta.obj->pos, novaPos);
+    for (i = 0; i < nObjetos; i++) {
+        switch (objetos[i]->tipo) {
+            case PLANETA:
+                imprimeSprite(pic, objetos[i]->img, 100, 100, novaPos);
+                break;
+            case NAVE:
+                imprimeRot(pic, objetos[i]->img, 50, objetos[i]->pos, objetos[i]->vel);
+                break;
+            case PROJETIL:
+                imprimeRot(pic, objetos[i]->img, 50, objetos[i]->pos, objetos[i]->vel);
+                break;
+            default:
+                printf("imprimaObjetos(): Tipo indefinido.\n");
+                exit(EXIT_FAILURE);
+        }
     }
-    for (i = 0; i < nProjeteis; i++)
-        imprimeRot(pic, projetil, 50, projeteis[i].pos, projeteis[i].vel);
 
     for (i = 0; i < nAnimacoes; i++) {
         imprimeAnims(pic, animacoes[i]);

@@ -2,43 +2,57 @@
 #define OBJETOS_H
 
 #include "xwc.h"
-#include "display.h"
 
 #define MAX_OBJETOS 1024
 
-typedef struct planeta {
+typedef struct sprite {
+    PIC img;
+    MASK mask;
+} Sprite;
+
+enum objetos {
+    PLANETA,
+    NAVE,
+    PROJETIL
+};
+
+typedef enum objetos TipoObjeto;
+
+typedef struct objeto {
+    TipoObjeto tipo;
+    Sprite *img;
     double massa;
     double raio;
     double pos[2];
+    double vel[2];
+    double res[2];
+    int alive;
+} Objeto;
+
+typedef struct planeta {
+    Objeto *obj;
 } Planeta;
 
 typedef struct nave {
+    Objeto *obj;
     char nome[80];
-    double massa;
-    double raio;
-    double pos[2];
-    double vel[2];
-    double res[2];
     double dir[2];
-    int alive;
-    int explodiu;
 } Nave;
 
 typedef struct projetil {
-    double massa;
-    double raio;
-    double pos[2];
-    double vel[2];
-    double res[2];
+    Objeto *obj;
     double duracao;
     int criado;
-    int alive;
 } Projetil;
 
 Planeta planeta;
 Nave nave[2];
 int nProjeteis;
 Projetil projeteis[MAX_OBJETOS];
+int nObjetos;
+Objeto *objetos[MAX_OBJETOS];
+
+Objeto *criaObjeto();
 
 void mataObjetos();
 

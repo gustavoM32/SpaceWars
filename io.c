@@ -42,24 +42,31 @@ int leiaArquivo() {
         exit(EXIT_FAILURE);
     }
 
-    planeta.pos[0] = planeta.pos[1] = 0.0;
-    fscanf(arquivo, "%lf %lf %lf", &(planeta.raio), &(planeta.massa), &tempoSimulacao);
-
-    planeta.raio = 45;
+    planeta.obj = criaObjeto();
+    planeta.obj->tipo = PLANETA;
+    planeta.obj->img = &planetaS;
+    fscanf(arquivo, "%lf %lf %lf", &(planeta.obj->raio), &(planeta.obj->massa), &tempoSimulacao);
+    planeta.obj->raio = 45;
 
     for (i = 0; i < 2; i++) {
-        fscanf(arquivo, "%s %lf %lf %lf %lf %lf", &(nave[i].nome), &(nave[i].massa), &(nave[i].pos[0]), &(nave[i].pos[1]), &(nave[i].vel[0]), &(nave[i].vel[1]));
-        nave[i].alive = 1;
-        nave[i].raio = 15;
+        nave[i].obj = criaObjeto();
+        nave[i].obj->tipo = NAVE;
+        nave[i].obj->img = naves[i];
+        fscanf(arquivo, "%s %lf %lf %lf %lf %lf", &(nave[i].nome), &(nave[i].obj->massa), &(nave[i].obj->pos[0]), &(nave[i].obj->pos[1]), &(nave[i].obj->vel[0]), &(nave[i].obj->vel[1]));
+        nave[i].obj->alive = 1;
+        nave[i].obj->raio = 15;
     }
 
     fscanf(arquivo, "%d %lf", &nProjeteis, &duracaoProjetil);
 
-    for(i = 0; i < nProjeteis; i++){
+    for(i = 0; i < nProjeteis; i++) {
+        projeteis[i].obj = criaObjeto();
+        projeteis[i].obj->tipo = PROJETIL;
+        projeteis[i].obj->img = projetil;
         projeteis[i].duracao = duracaoProjetil;
-        fscanf(arquivo, "%lf %lf %lf %lf %lf", &(projeteis[i].massa), &(projeteis[i].pos[0]), &(projeteis[i].pos[1]), &(projeteis[i].vel[0]), &(projeteis[i].vel[1]));
-        projeteis[i].alive = 1;
-        projeteis[i].raio = 4;
+        fscanf(arquivo, "%lf %lf %lf %lf %lf", &(projeteis[i].obj->massa), &(projeteis[i].obj->pos[0]), &(projeteis[i].obj->pos[1]), &(projeteis[i].obj->vel[0]), &(projeteis[i].obj->vel[1]));
+        projeteis[i].obj->alive = 1;
+        projeteis[i].obj->raio = 4;
         projeteis[i].criado = 0;
     }
 
