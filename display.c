@@ -77,7 +77,6 @@ void imprimeSprite(PIC dest, Sprite *s, int width, int height, double pos[2]) {
 void imprimeRot(PIC dest, Sprite s[], int dim, double pos[2], double vel[2]) {
     double novaPos[2];
     transforma(pos, novaPos);
-    //printf("(%7.2lf, %7.2lf) | ", novaPos[0], novaPos[1]);
     int dir = calculaDirecaoN(vel);
     imprimeSprite(dest, s+dir, dim, dim, novaPos);
 }
