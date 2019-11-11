@@ -61,17 +61,14 @@ void calculaDirecao(double pos1[2], double pos2[2], double dir[2], double dist);
 /*
     addForcaGrav()
 
-    Adiciona a força gravitacional entre os corpos 1 e 2 no
-vetor res.
+    Adiciona a força gravitacional entre os objetos a e b em seus
+    vetores resultantes.
 
     Parâmetros:
-        massa1 - massa do corpo 1
-        pos1[] - vetor posição do corpo 1
-        massa2 - massa do corpo 2
-        pos2[] - vetor posição do corpo 2
-        res[] - vetor onde é adicionado a força calculada
+        a - apontador para o objeto a
+        b - apontador para o objeto b
 */
-void addForcaGrav(Objeto *, Objeto *);
+void addForcaGrav(Objeto *a, Objeto *b);
 
 /*
     atualizaPosicoes()
@@ -80,7 +77,21 @@ void addForcaGrav(Objeto *, Objeto *);
 */
 void atualizaPosicoes();
 
-int colidiu(Objeto *, Objeto *);
+/*
+    colidiu()
 
+    Retorna 1 se dois objetos colidiram, 0 caso contrário.
+
+    Parâmetros:
+        a - apontador para o objeto a
+        b - apontador para o objeto b
+*/
+int colidiu(Objeto *a, Objeto *b);
+
+/*
+    detectaColisoes()
+
+    Verifica todas as colisões e marca os objetos que colidiram como mortos.
+*/
 void detectaColisoes();
 #endif

@@ -45,18 +45,33 @@ Animacao animacoes[MAX_ANIMS];
 void carregaSprite(PIC win, char nome[], int width, int height, Sprite *s);
 
 /*
-    carregaSprites()
+    carregaRots()
 
-    Carrega um vetor de sprites.
+    Carrega os sprites das rotações de um objeto.
 
     Parâmetros:
         win - janela de exibição
-        nome[] - nome dos sprites que devem ser carregados
+        nome[] - nome do objeto
         width - largura dos sprites
         height - altura dos sprites
         s[] - vetor onde os sprites devem ser armazenados
 */
-void carregaSprites(PIC win, char nome[], int width, int height, Sprite s[]);
+void carregaRots(PIC win, char nome[], int width, int height, Sprite s[]);
+
+/*
+    carregaAnims()
+
+    Carrega os sprites de uma animação.
+
+    Parâmetros:
+        win - janela de exibição
+        nome[] - nome da animação
+        frames - número de frames da animação
+        width - largura dos frames
+        height - altura dos frames
+        s[] - vetor onde os frames da animação devem ser armazenados
+*/
+void carregaAnims(PIC win, char nome[], int frames, int width, int height, Sprite s[]);
 
 /*
     carregaObjetos()
@@ -68,6 +83,19 @@ void carregaSprites(PIC win, char nome[], int width, int height, Sprite s[]);
 */
 void carregaObjetos(PIC win);
 
+/*
+    criaAnimacao()
+
+    Adiciona uma animação na lista de animações ativas na tela.
+
+    Parâmetros:
+        pos[] - posição da animação
+        width - largura da animação
+        height - altura da animação
+        frames - número de frames da animação
+        duracao - duração em segundos da animação
+        s - vetor dos frames da animação
+*/
 void criaAnimacao(double pos[], int width, int height, int frames, int duracao, Sprite *s);
 
 /*

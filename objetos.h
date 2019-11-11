@@ -52,8 +52,18 @@ Projetil projeteis[MAX_OBJETOS];
 int nObjetos;
 Objeto *objetos[MAX_OBJETOS];
 
+/*
+    criaObjeto()
+
+    Cria um novo objeto e adiciona ele no vetor objetos.
+ */
 Objeto *criaObjeto();
 
+/*
+    mataObjetos()
+
+    Destrói todos os objetos marcados como mortos.
+ */
 void mataObjetos();
 
 #endif
