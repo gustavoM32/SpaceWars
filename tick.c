@@ -7,6 +7,9 @@
 #include "fisica.h"
 
 static long int tick = 0;
+WINDOW *w;
+PIC rasc;
+PIC fundo;
 
 int getTick() {
     return tick;
@@ -30,9 +33,6 @@ void gameLoop() {
 
 void game() {
     int i;
-    WINDOW *w;
-    PIC rasc;
-    PIC fundo;
     int nProjeteis = leiaArquivo();
 
     passoSimulacao = 1.0 / (FRAMES_PER_SECOND * TICKS_PER_FRAME);

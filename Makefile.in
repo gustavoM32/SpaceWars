@@ -86,7 +86,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = ep3$(EXEEXT)
+bin_PROGRAMS = ep3$(EXEEXT) bell$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -102,6 +102,9 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
+am_bell_OBJECTS = bell.$(OBJEXT)
+bell_OBJECTS = $(am_bell_OBJECTS)
+bell_LDADD = $(LDADD)
 am_ep3_OBJECTS = ep3.$(OBJEXT)
 ep3_OBJECTS = $(am_ep3_OBJECTS)
 ep3_DEPENDENCIES = xwc.o fisica.o display.o io.o tick.o objetos.o \
@@ -134,8 +137,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(ep3_SOURCES)
-DIST_SOURCES = $(ep3_SOURCES)
+SOURCES = $(bell_SOURCES) $(ep3_SOURCES)
+DIST_SOURCES = $(bell_SOURCES) $(ep3_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -274,6 +277,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ep3_SOURCES = ep3.c
 ep3_LDADD = xwc.o fisica.o display.o io.o tick.o objetos.o util.o debug.o
+bell_SOURCES = bell.c
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -370,6 +374,10 @@ uninstall-binPROGRAMS:
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 
+bell$(EXEEXT): $(bell_OBJECTS) $(bell_DEPENDENCIES) $(EXTRA_bell_DEPENDENCIES) 
+	@rm -f bell$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(bell_OBJECTS) $(bell_LDADD) $(LIBS)
+
 ep3$(EXEEXT): $(ep3_OBJECTS) $(ep3_DEPENDENCIES) $(EXTRA_ep3_DEPENDENCIES) 
 	@rm -f ep3$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(ep3_OBJECTS) $(ep3_LDADD) $(LIBS)
@@ -380,6 +388,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bell.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ep3.Po@am__quote@
 
 .c.o:
