@@ -30,14 +30,14 @@ void WRect(WINDOW *w, int x, int y, int wd, int h, Color c)
   XDrawRectangle(display, w->ptr.window, w->gc, x, y, wd, h);
   XFlush(display);
 }
-  
+
 void WFillRect(WINDOW *w, int x, int y, int wd, int h, Color c)
 {
   XSetForeground(display, w->gc, c);
   XFillRectangle(display, w->ptr.window, w->gc, x, y, wd, h);
   XFlush(display);
 }
-  
+
 
 void WArc(WINDOW *w, int x, int y, int a1, int a2, int wd, int h, Color c)
 {
@@ -88,7 +88,7 @@ PIC NewPic(WINDOW *w, int wd, int h)
   p = (PIC)malloc(sizeof(PIC));
   p->ptr.p = XCreatePixmap(display, w->ptr.window, wd, h,
 						   DefaultDepth(display, DefaultScreen(display)));
-  p->gc = XCreateGC(display, p->ptr.p, GCForeground |GCBackground| GCPlaneMask | 
+  p->gc = XCreateGC(display, p->ptr.p, GCForeground |GCBackground| GCPlaneMask |
 		     GCSubwindowMode | GCClipXOrigin |  GCClipYOrigin |
 		     GCClipMask | GCFunction | GCGraphicsExposures, &gcv);
 
@@ -117,7 +117,7 @@ MASK NewMask(WINDOW *w, int wd, int h)
 
   nm = (MASK) malloc(sizeof(MASK));
   nm->ptr.m = XCreatePixmap(display,w->ptr.window,wd,h,1);
-  nm->gc = XCreateGC(display, nm->ptr.m, GCForeground |GCBackground| GCPlaneMask | 
+  nm->gc = XCreateGC(display, nm->ptr.m, GCForeground |GCBackground| GCPlaneMask |
 		     GCSubwindowMode | GCClipXOrigin |  GCClipYOrigin |
 		     GCClipMask | GCFunction | GCGraphicsExposures, &gcv);
   XSetForeground(display, nm->gc,0);
@@ -179,7 +179,7 @@ WINDOW* InitGraph(int WIDTH, int HEIGHT, char *nome)
   XSetWindowAttributes atts;
   Window window;
   GC gc;
-  
+
   nwin = (WINDOW *) malloc(sizeof(WINDOW));
   if (!nwin) return NULL;
 
@@ -189,7 +189,7 @@ WINDOW* InitGraph(int WIDTH, int HEIGHT, char *nome)
   }
 
   cmap = DefaultColormap(display, DefaultScreen(display));
-  window = XCreateSimpleWindow(display, DefaultRootWindow(display), 
+  window = XCreateSimpleWindow(display, DefaultRootWindow(display),
 			       50, 50, WIDTH, HEIGHT,	0, 8, 0);
   atts.backing_store = Always ;
   atts.backing_planes = 0xFFFFFFF;
@@ -198,7 +198,7 @@ WINDOW* InitGraph(int WIDTH, int HEIGHT, char *nome)
 
   XStoreName(display, window, nome);
 
-  
+
   gcv.function = GXcopy;
   gcv.plane_mask = 0xFFFFFFFF;
   gcv.subwindow_mode = ClipByChildren;
@@ -208,7 +208,7 @@ WINDOW* InitGraph(int WIDTH, int HEIGHT, char *nome)
   gcv.background = 0;
   gcv.graphics_exposures = False;
 
-  gc = XCreateGC(display, window, GCForeground |GCBackground| GCPlaneMask | 
+  gc = XCreateGC(display, window, GCForeground |GCBackground| GCPlaneMask |
 		 GCSubwindowMode | GCClipXOrigin |  GCClipYOrigin |
 		 GCClipMask | GCFunction | GCGraphicsExposures, &gcv);
 
@@ -225,7 +225,7 @@ WINDOW* InitGraph(int WIDTH, int HEIGHT, char *nome)
 	XNextEvent(display, &e);
 	if (e.type == MapNotify)
 	  break;
-  }          
+  }
   return nwin;
 }
 
@@ -247,7 +247,7 @@ PIC ReadPic(WINDOW *w, char *fname, MASK m)
   Pixmap pm;
   XGCValues gcv;
 
-  if (XpmReadFileToPixmap(display, w->ptr.p, fname, &pm, 
+  if (XpmReadFileToPixmap(display, w->ptr.p, fname, &pm,
 						  m ? &(m->ptr.m) : NULL, NULL))
 	 return NULL;
 
@@ -259,11 +259,11 @@ PIC ReadPic(WINDOW *w, char *fname, MASK m)
   gcv.foreground = 1;
   gcv.background = 0;
   gcv.graphics_exposures = False;
-  
+
   p = (PIC)malloc(sizeof(PIC));
   p->ptr.p = pm;
 
-  p->gc = XCreateGC(display, p->ptr.p, GCForeground |GCBackground| GCPlaneMask | 
+  p->gc = XCreateGC(display, p->ptr.p, GCForeground |GCBackground| GCPlaneMask |
 		     GCSubwindowMode | GCClipXOrigin |  GCClipYOrigin |
 		     GCClipMask | GCFunction | GCGraphicsExposures, &gcv);
   return p;
@@ -281,7 +281,7 @@ PIC MountPic(WINDOW *w, char **data, MASK m)
   Pixmap pm;
   XGCValues gcv;
 
-  if (XpmCreatePixmapFromData(display, w->ptr.p, data,&pm, 
+  if (XpmCreatePixmapFromData(display, w->ptr.p, data,&pm,
 							  m? & (m->ptr.m) : 0, NULL))
 	 return NULL;
 
@@ -293,10 +293,10 @@ PIC MountPic(WINDOW *w, char **data, MASK m)
   gcv.foreground = 1;
   gcv.background = 0;
   gcv.graphics_exposures = False;
-  
+
   p = (PIC)malloc(sizeof(PIC));
   p->ptr.p =  pm;
-  p->gc = XCreateGC(display, p->ptr.p, GCForeground |GCBackground| GCPlaneMask | 
+  p->gc = XCreateGC(display, p->ptr.p, GCForeground |GCBackground| GCPlaneMask |
 		     GCSubwindowMode | GCClipXOrigin |  GCClipYOrigin |
 		     GCClipMask | GCFunction | GCGraphicsExposures, &gcv);
 
@@ -305,9 +305,10 @@ PIC MountPic(WINDOW *w, char **data, MASK m)
 
 #endif
 
+/*
 void InitKBD(WINDOW *w)
 {
-  /*  XSelectInput (display, w->ptr.window, KeyPressMask|KeyReleaseMask);*/
+  // XSelectInput (display, w->ptr.window, KeyPressMask|KeyReleaseMask);
   XSelectInput (display, w->ptr.window, KeyPressMask);
 }
 
@@ -329,11 +330,78 @@ KeyCode WGetKey(WINDOW *w)
 
   XWindowEvent(display,w->ptr.window, KeyPressMask|KeyReleaseMask, &xev);
   key = XkbKeycodeToKeysym(display, xev.xkey.keycode,
-						   0, xev.xkey.state & ShiftMask ? 1 : 0);
+               0, xev.xkey.state & ShiftMask ? 1 : 0);
   return xev.xkey.keycode;
 }
 
 KeySym WLastKeySym()
 {
   return key;
+}
+*/
+
+/* A partir daqui o codigo foi editado, não é do xwc original. Autor: Caíque Côrrea */
+
+void InitKBD(WINDOW *w) //Função editada
+{
+  XSelectInput (display, w->ptr.window, KeyPressMask|KeyReleaseMask);
+  XAutoRepeatOff(display);
+  /* XSelectInput (display, w->ptr.window, KeyPressMask); */
+}
+
+KeySym keyP;
+KeySym keyR;
+
+int WCheckKBDPress(WINDOW *w)
+{
+  int r;
+  XEvent xev;
+
+  r = XCheckWindowEvent(display,w->ptr.window, KeyPressMask, &xev);
+  if (r) XPutBackEvent(display, &xev);
+  return r;
+}
+
+KeyCode WGetKeyPress(WINDOW *w)
+{
+  XEvent xev;
+
+  XWindowEvent(display,w->ptr.window, KeyPressMask, &xev);
+  keyP = XkbKeycodeToKeysym(display, xev.xkey.keycode,
+               0, xev.xkey.state & ShiftMask ? 1 : 0);
+  return xev.xkey.keycode;
+}
+
+KeySym WLastKeyPressSym()
+{
+  return keyP;
+}
+
+int WCheckKBDRelease(WINDOW *w)
+{
+  int r;
+  XEvent xev;
+
+  r = XCheckWindowEvent(display,w->ptr.window, KeyReleaseMask, &xev);
+  if (r) XPutBackEvent(display, &xev);
+  return r;
+}
+
+KeyCode WGetKeyRelease(WINDOW *w)
+{
+  XEvent xev;
+
+  XWindowEvent(display,w->ptr.window, KeyReleaseMask, &xev);
+  keyR = XkbKeycodeToKeysym(display, xev.xkey.keycode,
+               0, xev.xkey.state & ShiftMask ? 1 : 0);
+  return xev.xkey.keycode;
+}
+
+KeySym WLastKeyReleaseSym()
+{
+  return keyR;
+}
+
+Display *getDisplay() {
+    return display;
 }

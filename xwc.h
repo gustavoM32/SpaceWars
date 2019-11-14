@@ -128,18 +128,19 @@ PIC MountPic(WINDOW *w, char **data, MASK m);
 int WritePic(PIC p, char *fname, MASK m);
 #endif
 
-
-/* Inicializa a captura de eventos de teclado */
 void InitKBD(WINDOW *w);
 
+int WCheckKBDPress(WINDOW *w);
 
-/* Verifica se existe alguma tecla disponível */
-int WCheckKBD(WINDOW *w);
+KeyCode WGetKeyPress(WINDOW *w);
 
-/* pega a próxima tecla e retorna o código X.
- * Veja em $INC/X11/keysymdef.h */
-KeyCode WGetKey(WINDOW *w);
+KeySym WLastKeyPressSym();
 
-/* Retorna o KeySym da última tecla lida */
-KeySym WLastKeySym();
+int WCheckKBDRelease(WINDOW *w);
+
+KeyCode WGetKeyRelease(WINDOW *w);
+
+KeySym WLastKeyReleaseSym();
+
+Display *getDisplay();
 #endif

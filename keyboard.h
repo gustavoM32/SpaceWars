@@ -11,11 +11,13 @@
 
 #define ENTER_KEY 36
 
+int teclas[2][4];
+
 /*
     menuActions()
 
     realiza a acao 'acao'
-    
+
     Parametros:
         WINDOW *w - ponteiro para a janela de onde serao identificadas as teclas
         int acao - codigo da acao a ser realizada:
@@ -36,6 +38,8 @@ void menuActions(WINDOW *w, int acao);
 */
 void checkForMenuActions(WINDOW *w);
 
+void iniciaTeclas();
+
 /*
     checkForActions()
 
@@ -49,21 +53,8 @@ void checkForMenuActions(WINDOW *w);
 void checkForActions(WINDOW *w);
 
 /*
-    nave1Ac()
+    naveAc()
 
-    Realiza as acoes da nave1 mediante o codigo em key
-    
-    Parametros:
-        key - codigo da tecla
+    Realiza as acoes das naves.
 */
-void nave1Ac(int key);
-
-/*
-    nave2Ac()
-
-    Realiza as acoes da nave2 mediante o codigo em key
-    
-    Parametros:
-        key - codigo da tecla
-*/
-void nave2Ac(int key);
+void naveAc();

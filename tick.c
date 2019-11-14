@@ -5,6 +5,9 @@
 #include "objetos.h"
 #include "io.h"
 #include "fisica.h"
+#include "keyboard.h"
+#include <X11/Xlib.h>
+#include "xwc.h"
 
 static long int tick = 0;
 int loser = 0;
@@ -31,7 +34,9 @@ void endGame() {
 
 void gameLoop() {
     tick = 0;
+    iniciaTeclas();
     while (endTick == -1 || tick <= endTick) {
+        checkForActions(w);
         atualizaPosicoes();
         detectaColisoes();
         mataObjetos();
@@ -56,6 +61,7 @@ void game() {
 
     passoSimulacao = 1.0 / (FRAMES_PER_SECOND * TICKS_PER_FRAME);
     w = InitGraph(WIDTH, HEIGHT, "My windows xp");
+    InitKBD(w);
     rasc = NewPic(w, WIDTH, HEIGHT);
     carregaObjetos(w);
     printf("Carregando assets/background.xpm...\n");
@@ -64,5 +70,6 @@ void game() {
 
     gameLoop();
 
+    XAutoRepeatOn(getDisplay());
     CloseGraph();
 }
