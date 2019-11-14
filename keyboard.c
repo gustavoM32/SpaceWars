@@ -2,7 +2,56 @@
 #include "fisica.h"
 #include "objetos.h"
 
-void checkForActions(WINDOW *w){
+#define OPTIONS_LIMIT 2
+
+int opcao = 0;
+
+void menuActions(WINDOW *w, int acao) {
+    switch (acao)
+    {
+    case 0:
+        if(opcao < OPTIONS_LIMIT) {
+            opcao++;
+            /* desce seta */
+        }
+        break;
+    case 1:
+        if(opcao) {
+            opcao--;
+            /* sobe seta */
+        }
+        break;
+    case 2:
+        /* pressiona enter */
+    default:
+        break;
+    }
+}
+
+void checkForMenuActions(WINDOW *w) {
+    int key;
+    if(WCheckKBD(w)){
+        key = WGetKey(w);
+        switch (key)
+        {
+        case W_KEY:
+        case UP_ARROW_KEY:
+            menuActions(w, 1);
+            break;
+        case DOWN_ARROW_KEY:
+        case S_KEY:
+            menuActions(w, 0);
+            break;
+        case ENTER_KEY:
+            menuActions(w, 2);
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+void checkForActions(WINDOW *w) {
     int key;
     if(WCheckKBD(w)){
         key = WGetKey(w);
@@ -26,7 +75,7 @@ void checkForActions(WINDOW *w){
     }
 }
 
-void nave1Ac(int key){
+void nave1Ac(int key) {
     switch (key)
     {
     case W_KEY:
@@ -46,7 +95,7 @@ void nave1Ac(int key){
     }
 }
 
-void nave2Ac(int key){
+void nave2Ac(int key) {
     switch (key)
     {
     case UP_ARROW_KEY:

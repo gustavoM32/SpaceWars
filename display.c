@@ -34,13 +34,13 @@ void carregaAnims(PIC win, char nome[], int frames, int width, int height, Sprit
 
 void carregaObjetos(PIC win) {
     printf("Carregando planeta...\n");
-    carregaSprite(win, "planeta", 100, 100, &planetaS);
+    carregaSprite(win, "planeta/planeta", 100, 100, &planetaS);
     printf("Carregando nave1...\n");
-    carregaRots(win, "nave1", 50, 50, naves[0]);
+    carregaRots(win, "nave1/nave1", 50, 50, naves[0]);
     printf("Carregando nave2...\n");
-    carregaRots(win, "nave2", 50, 50, naves[1]);
+    carregaRots(win, "nave2/nave2", 50, 50, naves[1]);
     printf("Carregando projetil1...\n");
-    carregaRots(win, "projetil1", 50, 50, projetil);
+    carregaRots(win, "projetil1/projetil1", 50, 50, projetil);
     printf("Carregando explosion...\n");
     carregaAnims(win, "exp/explosion", 15, 50, 60, explosao);
 }

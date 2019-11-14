@@ -12,6 +12,31 @@
 #define ENTER_KEY 36
 
 /*
+    menuActions()
+
+    realiza a acao 'acao'
+    
+    Parametros:
+        WINDOW *w - ponteiro para a janela de onde serao identificadas as teclas
+        int acao - codigo da acao a ser realizada:
+            0 = desce a seta
+            1 = sobe a seta
+            2 = confirma opcao
+*/
+void menuActions(WINDOW *w, int acao);
+
+/*
+    checkForMenuActions()
+
+    Checa se a ultima tecla pressionada e' uma acao valida do menu
+    Assume que InitKDB() ja foi dado
+
+    Parametros:
+        WINDOW *w - ponteiro para a janela de onde serao identificadas as teclas
+*/
+void checkForMenuActions(WINDOW *w);
+
+/*
     checkForActions()
 
     Checa se a ultima tecla pressionada e' uma acao valida das naves
