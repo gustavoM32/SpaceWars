@@ -104,3 +104,41 @@ void detectaColisoes() {
         }
     }
 }
+
+void aumentaVelocidade(Objeto *a) {
+    double norma = calcNorma(a->vel);
+    db(printf("Velocidade antes: (%g, %g)", a->vel[0], a->vel[1]));
+    a->vel[0] += NORMA_VEL*a->vel[0]/norma;
+    a->vel[1] += NORMA_VEL*a->vel[1]/norma;    
+    db(printf("Velocidade depois: (%g, %g)", a->vel[0], a->vel[1]));
+}
+
+/*
+    cos x   -sin x
+    sin x    cos x
+ */
+void rotacionaNaveH(Nave *a) {
+    double novaDir[2] = {0, 0};
+    novaDir[0] = a->dir[0]*COS_ROTACAO - a->dir[1]*SIN_ROTACAO;
+    novaDir[1] = a->dir[0]*SIN_ROTACAO + a->dir[1]*COS_ROTACAO;
+    db(printf("Direcao antes: (%g, %g)", a->dir[0], a->dir[1]));
+    a->dir[0] = novaDir[0];
+    a->dir[1] = novaDir[1];
+    double norma = calcNorma(a->dir);
+    a->dir[0] /= norma;
+    a->dir[1] /= norma;
+    db(printf("Direcao depois: (%g, %g)", a->dir[0], a->dir[1]));
+}
+
+void rotacionaNaveA(Nave *a) {
+    double novaDir[2] = {0, 0};
+    novaDir[0] = a->dir[0]*COS_ROTACAO + a->dir[1]*SIN_ROTACAO;
+    novaDir[1] = -a->dir[0]*SIN_ROTACAO + a->dir[1]*COS_ROTACAO;
+    db(printf("Direcao antes: (%g, %g)", a->dir[0], a->dir[1]));
+    a->dir[0] = novaDir[0];
+    a->dir[1] = novaDir[1];
+    double norma = calcNorma(a->dir);
+    a->dir[0] /= norma;
+    a->dir[1] /= norma;
+    db(printf("Direcao depois: (%g, %g)", a->dir[0], a->dir[1]));
+}
