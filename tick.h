@@ -18,4 +18,11 @@ int getTick();
 */
 void gameLoop();
 
+/*
+    game()
+
+    Executa o jogo.
+*/
+void game();
+
 #endif
