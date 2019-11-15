@@ -5,6 +5,7 @@
 #include "objetos.h"
 #include "util.h"
 #include "debug.h"
+#include "keyboard.h"
 
 void transforma(double coor[2], double nova[2]) {
     double fator = FATOR;
@@ -58,7 +59,7 @@ void addForcaGrav(Objeto *a, Objeto *b) {
     }
 }
 
-void atualizaPosicoes() {
+void atualizaPosicoes(WINDOW *w) {
     int i, j;
     int supw = FATOR*WIDTH;
     int suph = FATOR*HEIGHT;
@@ -73,18 +74,28 @@ void atualizaPosicoes() {
         }
     }
 
+    for (i = 0; i < 2; i++) {
+        if (nave[i].obj == NULL) continue;
+        if (teclas[i][0]) accUsuario(nave[i].obj);
+        if (teclas[i][1]) rotacionaNave(nave[i].obj, 1);
+        if (teclas[i][2]) disparaProjetil(nave+i);
+        if (teclas[i][3]) rotacionaNave(nave[i].obj, -1);
+    }
+
+
     for (i = 0; i < nObjetos; i++) {
         /* aplica aceleração */
         objetos[i]->vel[0] += (objetos[i]->res[0] / objetos[i]->massa) * passoSimulacao;
         objetos[i]->vel[1] += (objetos[i]->res[1] / objetos[i]->massa) * passoSimulacao;
 
         /* aplica velocidade */
-        objetos[i]->pos[0] += (objetos[i]->vel[0]) * passoSimulacao;
-        objetos[i]->pos[1] += (objetos[i]->vel[1]) * passoSimulacao;
+        objetos[i]->pos[0] += objetos[i]->vel[0] * passoSimulacao;
+        objetos[i]->pos[1] += objetos[i]->vel[1] * passoSimulacao;
 
         /* imita um toro */
         objetos[i]->pos[0] = mod(objetos[i]->pos[0] + supw/2, supw) - supw/2;
         objetos[i]->pos[1] = mod(objetos[i]->pos[1] + suph/2, suph) - suph/2;
+
     }
 }
 
@@ -105,40 +116,19 @@ void detectaColisoes() {
     }
 }
 
-void aumentaVelocidade(Objeto *a) {
-    double norma = calcNorma(a->vel);
-    db(printf("Velocidade antes: (%g, %g)", a->vel[0], a->vel[1]));
-    a->vel[0] += NORMA_VEL*a->vel[0]/norma;
-    a->vel[1] += NORMA_VEL*a->vel[1]/norma;    
-    db(printf("Velocidade depois: (%g, %g)", a->vel[0], a->vel[1]));
+void accUsuario(Objeto *a) {
+    db(printf("Resultante antes: (%g, %g)\n", a->res[0], a->res[1]));
+    a->res[0] += ACC_USUARIO * cos(a->ang);
+    a->res[1] += ACC_USUARIO * sin(a->ang);
+    db(printf("Resultante depois: (%g, %g)\n", a->res[0], a->res[1]));
 }
 
 /*
     cos x   -sin x
     sin x    cos x
  */
-void rotacionaNaveH(Nave *a) {
-    double novaDir[2] = {0, 0};
-    novaDir[0] = a->dir[0]*COS_ROTACAO - a->dir[1]*SIN_ROTACAO;
-    novaDir[1] = a->dir[0]*SIN_ROTACAO + a->dir[1]*COS_ROTACAO;
-    db(printf("Direcao antes: (%g, %g)", a->dir[0], a->dir[1]));
-    a->dir[0] = novaDir[0];
-    a->dir[1] = novaDir[1];
-    double norma = calcNorma(a->dir);
-    a->dir[0] /= norma;
-    a->dir[1] /= norma;
-    db(printf("Direcao depois: (%g, %g)", a->dir[0], a->dir[1]));
-}
-
-void rotacionaNaveA(Nave *a) {
-    double novaDir[2] = {0, 0};
-    novaDir[0] = a->dir[0]*COS_ROTACAO + a->dir[1]*SIN_ROTACAO;
-    novaDir[1] = -a->dir[0]*SIN_ROTACAO + a->dir[1]*COS_ROTACAO;
-    db(printf("Direcao antes: (%g, %g)", a->dir[0], a->dir[1]));
-    a->dir[0] = novaDir[0];
-    a->dir[1] = novaDir[1];
-    double norma = calcNorma(a->dir);
-    a->dir[0] /= norma;
-    a->dir[1] /= norma;
-    db(printf("Direcao depois: (%g, %g)", a->dir[0], a->dir[1]));
+void rotacionaNave(Objeto *a, int sentido) {
+    db(printf("Angulo antes: (%g)\n", a->ang));
+    a->ang = modD(a->ang + sentido * 0.01, 2*PI);
+    db(printf("Angulo depois: (%g)\n", a->ang));
 }

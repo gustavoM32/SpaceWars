@@ -74,11 +74,11 @@ void imprimeSprite(PIC dest, Sprite *s, int width, int height, double pos[2]) {
     UnSetMask(dest);
 }
 
-void imprimeRot(PIC dest, Sprite s[], int dim, double pos[2], double vel[2]) {
+void imprimeRot(PIC dest, Sprite s[], int dim, double pos[2], double dir[2]) {
     double novaPos[2];
     transforma(pos, novaPos);
-    int dir = calculaDirecaoN(vel);
-    imprimeSprite(dest, s+dir, dim, dim, novaPos);
+    int direcao = calculaDirecaoN(dir);
+    imprimeSprite(dest, s+direcao, dim, dim, novaPos);
 }
 
 void imprimeAnims(PIC dest, Animacao a) {
@@ -92,17 +92,20 @@ void imprimeAnims(PIC dest, Animacao a) {
 
 void imprimaObjetos(PIC pic) {
     int i;
-    double novaPos[2];
-    transforma(planeta.obj->pos, novaPos);
+    double vet[2];
+    transforma(planeta.obj->pos, vet);
     for (i = 0; i < nObjetos; i++) {
         switch (objetos[i]->tipo) {
             case PLANETA:
-                imprimeSprite(pic, objetos[i]->img, 100, 100, novaPos);
+                imprimeSprite(pic, objetos[i]->img, 100, 100, vet);
                 break;
             case NAVE:
-                imprimeRot(pic, objetos[i]->img, 50, objetos[i]->pos, objetos[i]->vel);
+                vet[0] = cos(objetos[i]->ang);
+                vet[1] = sin(objetos[i]->ang);
+                imprimeRot(pic, objetos[i]->img, 50, objetos[i]->pos, vet);
                 break;
             case PROJETIL:
+                //printf("imprimindo projetil %d\n", i);
                 imprimeRot(pic, objetos[i]->img, 50, objetos[i]->pos, objetos[i]->vel);
                 break;
             default:

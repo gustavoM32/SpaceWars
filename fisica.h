@@ -7,10 +7,8 @@
 #define EPSILON 1.0e-10
 #define MAX_ACC 1.0e7
 #define GRAVIDADE 6.67e-11
-#define NORMA_VEL 10 
+#define ACC_USUARIO 1e12
 /*Mudar depois NORMA_VEL */
-#define COS_ROTACAO 0.99619469809
-#define SIN_ROTACAO 0.08715574274 
 
 double tempoSimulacao;
 double passoSimulacao;
@@ -102,13 +100,13 @@ void detectaColisoes();
 /*
     aumentaVelocidade()
 
-    Aumenta a velocidade do objeto 'a' somando a um vetor de mesma 
+    Aumenta a velocidade do objeto 'a' somando a um vetor de mesma
     direcao e sentido, e norma NORMA_VEL
 
     Parametros:
         a - apontador para o objeto 'a'
 */
-void aumentaVelocidade(Objeto *a);
+void accUsuario(Objeto *a);
 
 /*
     rotacionaNaveH()
@@ -118,15 +116,6 @@ void aumentaVelocidade(Objeto *a);
     Parametros:
         a - apontador para a nave 'a'
 */
-void rotacionaNaveH(Nave *a);
+void rotacionaNave(Objeto *a, int sentido);
 
-/*
-    rotacionaNaveH()
-
-    Rotaciona a nave 'a' em 5 graus (aproximadamente) sentido anti-horario
-
-    Parametros:
-        a - apontador para a nave 'a'
-*/
-void rotacionaNaveA(Nave *a);
 #endif

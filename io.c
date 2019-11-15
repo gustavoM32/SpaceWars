@@ -7,7 +7,6 @@
 int leiaArquivo() {
     FILE * arquivo;
     char nomeDoArquivo[80];
-    double duracaoProjetil;
     int i;
 
     printf("Digite o nome do arquivo: ");
@@ -27,6 +26,7 @@ int leiaArquivo() {
     planeta.obj->raio = 45;
 
     for (i = 0; i < 2; i++) {
+        nave[i].ultima = 0;
         nave[i].obj = criaObjeto();
         nave[i].obj->tipo = NAVE;
         nave[i].obj->img = naves[i];
@@ -34,9 +34,11 @@ int leiaArquivo() {
         nave[i].obj->alive = 1;
         nave[i].obj->raio = 15;
     }
+    nave[0].obj->ang = 0.0;
+    nave[1].obj->ang = PI;
 
     fscanf(arquivo, "%d %lf", &nProjeteis, &duracaoProjetil);
-
+    
     for(i = 0; i < nProjeteis; i++) {
         projeteis[i].obj = criaObjeto();
         projeteis[i].obj->tipo = PROJETIL;

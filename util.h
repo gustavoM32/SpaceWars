@@ -22,4 +22,6 @@ void *mallocSafe(size_t tam);
 */
 int mod(int a, int b);
 
+double modD(double a, double b);
+
 #endif

@@ -4,6 +4,7 @@
 #include "xwc.h"
 
 #define MAX_OBJETOS 1024
+#define TEMPO_DISP 1
 
 typedef struct sprite {
     PIC img;
@@ -26,6 +27,7 @@ typedef struct objeto {
     double pos[2];
     double vel[2];
     double res[2];
+    double ang;
     int alive;
 } Objeto;
 
@@ -35,8 +37,8 @@ typedef struct planeta {
 
 typedef struct nave {
     Objeto *obj;
+    int ultima;
     char nome[80];
-    double dir[2];
 } Nave;
 
 typedef struct projetil {
@@ -48,6 +50,7 @@ typedef struct projetil {
 Planeta planeta;
 Nave nave[2];
 int nProjeteis;
+double duracaoProjetil;
 Projetil projeteis[MAX_OBJETOS];
 int nObjetos;
 Objeto *objetos[MAX_OBJETOS];
@@ -58,6 +61,8 @@ Objeto *objetos[MAX_OBJETOS];
     Cria um novo objeto e adiciona ele no vetor objetos.
  */
 Objeto *criaObjeto();
+
+void disparaProjetil(Nave *a);
 
 /*
     mataObjetos()

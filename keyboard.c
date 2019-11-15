@@ -85,17 +85,4 @@ void checkForActions(WINDOW *w) {
         if (key == DOWN_ARROW_KEY) teclas[1][2] = 0;
         if (key == RIGHT_ARROW_KEY) teclas[1][3] = 0;
     }
-    naveAc();
-}
-
-int kkk = 0;
-
-void naveAc() {
-    int i;
-    for (i = 0; i < 2; i++) {
-        if (teclas[i][0]) aumentaVelocidade((nave+i)->obj);
-        if (teclas[i][1]) rotacionaNaveH(nave+i);
-        if (teclas[i][2]) printf("indo pra baixo %d\n", kkk++);
-        if (teclas[i][3]) rotacionaNaveA(nave+i);
-    }
 }

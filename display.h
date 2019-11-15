@@ -136,7 +136,7 @@ void imprimeSprite(PIC dest, Sprite *s, int width, int height, double pos[2]);
         pos[] - posição do objeto que o sprite representa
         vel[] - veliocidade do objeto que o sprite representa
 */
-void imprimeRot(PIC dest, Sprite s[], int dim, double pos[2], double vel[2]);
+void imprimeRot(PIC dest, Sprite s[], int dim, double pos[2], double dir[2]);
 
 /*
     imprimaObjetos()

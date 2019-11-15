@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tick.h"
+#include "util.h"
 
 int main() {
     game();

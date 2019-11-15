@@ -22,7 +22,7 @@ int getTick() {
 }
 
 void endGame() {
-    endTick = tick + 5 * TICKS_PER_FRAME * FRAMES_PER_SECOND;
+    endTick = tick + 5000 * TICKS_PER_FRAME * FRAMES_PER_SECOND;
     if (loser == 1) {
         printf("Jogador 2 ganhou!\n");
     } else if (loser == 2) {
