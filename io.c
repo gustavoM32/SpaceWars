@@ -3,11 +3,14 @@
 #include "io.h"
 #include "objetos.h"
 #include "display.h"
+#include "util.h"
 
-int leiaArquivo() {
-    FILE * arquivo;
+void leiaArquivo() {
+    FILE *arquivo;
     char nomeDoArquivo[80];
     int i;
+    Objeto *novo;
+    int nProjeteis;
 
     printf("Digite o nome do arquivo: ");
     scanf("%s", nomeDoArquivo);
@@ -19,40 +22,37 @@ int leiaArquivo() {
         exit(EXIT_FAILURE);
     }
 
-    planeta.obj = criaObjeto();
-    planeta.obj->tipo = PLANETA;
-    planeta.obj->img = &planetaS;
-    fscanf(arquivo, "%lf %lf %lf", &(planeta.obj->raio), &(planeta.obj->massa), &tempoSimulacao);
-    planeta.obj->raio = 45;
+    fimListaObjetos = listaObjetos = (Objeto *) mallocSafe(sizeof(Objeto));
+    listaObjetos->prox = NULL;
+
+    planeta = criaObjeto();
+    planeta->categoria = PLANETA;
+    planeta->s = &planetaS;
+    fscanf(arquivo, "%lf %lf %lf", &(planeta->raio), &(planeta->massa), &tempoSimulacao);
+    planeta->raio = 45;
 
     for (i = 0; i < 2; i++) {
-        nave[i].ultima = 0;
-        nave[i].obj = criaObjeto();
-        nave[i].obj->tipo = NAVE;
-        nave[i].obj->img = naves[i];
-        fscanf(arquivo, "%s %lf %lf %lf %lf %lf", &(nave[i].nome), &(nave[i].obj->massa), &(nave[i].obj->pos[0]), &(nave[i].obj->pos[1]), &(nave[i].obj->vel[0]), &(nave[i].obj->vel[1]));
-        nave[i].obj->alive = 1;
-        nave[i].obj->raio = 15;
+        nave[i] = criaNave();
+        nave[i]->oNave->id = i;
+        nave[i]->categoria = NAVE;
+        nave[i]->s = naves[i];
+        fscanf(arquivo, "%s %lf %lf %lf %lf %lf", &(nave[i]->oNave->nome), &(nave[i]->massa), &(nave[i]->pos[0]), &(nave[i]->pos[1]), &(nave[i]->vel[0]), &(nave[i]->vel[1]));
+        nave[i]->alive = 1;
+        nave[i]->raio = 15;
+        nave[i]->ang = i*PI;
     }
-    nave[0].obj->ang = 0.0;
-    nave[1].obj->ang = PI;
 
     fscanf(arquivo, "%d %lf", &nProjeteis, &duracaoProjetil);
-    
+
     for(i = 0; i < nProjeteis; i++) {
-        projeteis[i].obj = criaObjeto();
-        projeteis[i].obj->tipo = PROJETIL;
-        projeteis[i].obj->img = projetil;
-        projeteis[i].duracao = duracaoProjetil;
-        fscanf(arquivo, "%lf %lf %lf %lf %lf", &(projeteis[i].obj->massa), &(projeteis[i].obj->pos[0]), &(projeteis[i].obj->pos[1]), &(projeteis[i].obj->vel[0]), &(projeteis[i].obj->vel[1]));
-        projeteis[i].obj->alive = 1;
-        projeteis[i].obj->raio = 4;
-        projeteis[i].criado = 0;
+        novo = criaProjetil();
+        novo->categoria = PROJETIL;
+        novo->s = projetil;
+        fscanf(arquivo, "%lf %lf %lf %lf %lf", &(novo->massa), &(novo->pos[0]), &(novo->pos[1]), &(novo->vel[0]), &(novo->vel[1]));
+        novo->alive = 1;
+        novo->raio = 4;
     }
 
     fclose(arquivo);
 
-    nAnimacoes = 0;
-
-    return nProjeteis;
 }

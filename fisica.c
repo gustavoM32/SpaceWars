@@ -60,42 +60,42 @@ void addForcaGrav(Objeto *a, Objeto *b) {
 }
 
 void atualizaPosicoes(WINDOW *w) {
-    int i, j;
+    Objeto *obj1, *obj2;
+    int i;
     int supw = FATOR*WIDTH;
     int suph = FATOR*HEIGHT;
 
-    for (i = 0; i < nObjetos; i++) {
-        objetos[i]->res[0] = objetos[i]->res[1] = 0;
+    for (obj1 = listaObjetos->prox; obj1 != NULL; obj1 = obj1->prox) {
+        obj1->res[0] = obj1->res[1] = 0;
     }
 
-    for (i = 0; i < nObjetos; i++) {
-        for (j = i+1; j < nObjetos; j++) {
-            addForcaGrav(objetos[i], objetos[j]);
+    for (obj1 = listaObjetos->prox; obj1 != NULL; obj1 = obj1->prox) {
+        for (obj2 = obj1->prox; obj2 != NULL; obj2 = obj2->prox) {
+            addForcaGrav(obj1, obj2);
         }
     }
 
     for (i = 0; i < 2; i++) {
-        if (nave[i].obj == NULL) continue;
-        if (teclas[i][0]) accUsuario(nave[i].obj);
-        if (teclas[i][1]) rotacionaNave(nave[i].obj, 1);
-        if (teclas[i][2]) disparaProjetil(nave+i);
-        if (teclas[i][3]) rotacionaNave(nave[i].obj, -1);
+        if (nave[i] == NULL) continue;
+        if (teclas[i][0]) accUsuario(nave[i]);
+        if (teclas[i][1]) rotacionaNave(nave[i], 1);
+        if (teclas[i][2]) disparaProjetil(nave[i]);
+        if (teclas[i][3]) rotacionaNave(nave[i], -1);
     }
 
-
-    for (i = 0; i < nObjetos; i++) {
+    for (obj1 = listaObjetos->prox; obj1 != NULL; obj1 = obj1->prox) {
+        if (obj1->categoria == ANIMACAO) continue;
         /* aplica aceleração */
-        objetos[i]->vel[0] += (objetos[i]->res[0] / objetos[i]->massa) * passoSimulacao;
-        objetos[i]->vel[1] += (objetos[i]->res[1] / objetos[i]->massa) * passoSimulacao;
+        obj1->vel[0] += (obj1->res[0] / obj1->massa) * passoSimulacao;
+        obj1->vel[1] += (obj1->res[1] / obj1->massa) * passoSimulacao;
 
         /* aplica velocidade */
-        objetos[i]->pos[0] += objetos[i]->vel[0] * passoSimulacao;
-        objetos[i]->pos[1] += objetos[i]->vel[1] * passoSimulacao;
+        obj1->pos[0] += obj1->vel[0] * passoSimulacao;
+        obj1->pos[1] += obj1->vel[1] * passoSimulacao;
 
         /* imita um toro */
-        objetos[i]->pos[0] = mod(objetos[i]->pos[0] + supw/2, supw) - supw/2;
-        objetos[i]->pos[1] = mod(objetos[i]->pos[1] + suph/2, suph) - suph/2;
-
+        obj1->pos[0] = modD(obj1->pos[0] + supw/2, supw) - supw/2;
+        obj1->pos[1] = modD(obj1->pos[1] + suph/2, suph) - suph/2;
     }
 }
 
@@ -104,31 +104,24 @@ int colidiu(Objeto *a, Objeto *b) {
 }
 
 void detectaColisoes() {
-    int i, j;
-    for (i = 0; i < nObjetos; i++) {
-        for (j = i+1; j < nObjetos; j++) {
-            if (colidiu(objetos[i], objetos[j])) {
-                if (objetos[i]->tipo != PLANETA) objetos[i]->alive = 0;
-                if (objetos[j]->tipo != PLANETA) objetos[j]->alive = 0;
-                db(printf("Objeto %d colidiu com objeto %d\n", i, j));
+    Objeto *obj1, *obj2;
+    for (obj1 = listaObjetos->prox; obj1 != NULL; obj1 = obj1->prox) {
+        for (obj2 = obj1->prox; obj2 != NULL; obj2 = obj2->prox) {
+            if (obj1->categoria == ANIMACAO || obj2->categoria == ANIMACAO) continue;
+            if (colidiu(obj1, obj2)) {
+                if (obj1->categoria != PLANETA) obj1->alive = 0;
+                if (obj2->categoria != PLANETA) obj2->alive = 0;
+                db(printf("Objeto de tipo %d colidiu com objeto de tipo %d\n", obj1->categoria, obj2->categoria));
             }
         }
     }
 }
 
 void accUsuario(Objeto *a) {
-    db(printf("Resultante antes: (%g, %g)\n", a->res[0], a->res[1]));
     a->res[0] += ACC_USUARIO * cos(a->ang);
     a->res[1] += ACC_USUARIO * sin(a->ang);
-    db(printf("Resultante depois: (%g, %g)\n", a->res[0], a->res[1]));
 }
 
-/*
-    cos x   -sin x
-    sin x    cos x
- */
 void rotacionaNave(Objeto *a, int sentido) {
-    db(printf("Angulo antes: (%g)\n", a->ang));
     a->ang = modD(a->ang + sentido * 0.01, 2*PI);
-    db(printf("Angulo depois: (%g)\n", a->ang));
 }

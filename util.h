@@ -3,6 +3,10 @@
 
 #include <stddef.h>
 
+#define oNave subObj.nave
+#define oProj subObj.projetil
+#define oAnim subObj.animacao
+
 /*
     mallocSafe()
 

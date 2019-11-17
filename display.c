@@ -5,6 +5,7 @@
 #include "display.h"
 #include "fisica.h"
 #include "tick.h"
+#include "util.h"
 
 void carregaSprite(PIC win, char nome[], int width, int height, Sprite *s) {
     char path[] = "assets/sprites/";
@@ -45,18 +46,6 @@ void carregaObjetos(PIC win) {
     carregaAnims(win, "exp/explosion", 15, 50, 60, explosao);
 }
 
-void criaAnimacao(double pos[], int width, int height, int frames, int duracao, Sprite *s) {
-    animacoes[nAnimacoes].pos[0] = pos[0];
-    animacoes[nAnimacoes].pos[1] = pos[1];
-    animacoes[nAnimacoes].width = width;
-    animacoes[nAnimacoes].height = height;
-    animacoes[nAnimacoes].frames = frames;
-    animacoes[nAnimacoes].duracao = duracao;
-    animacoes[nAnimacoes].inicio = getTick();
-    animacoes[nAnimacoes].s = s;
-    nAnimacoes++;
-}
-
 int calculaDirecaoN(double dir[2]) {
     double intervalo = 2*PI / NUM_ROTACOES;
     double norma = calcNorma(dir);
@@ -81,40 +70,38 @@ void imprimeRot(PIC dest, Sprite s[], int dim, double pos[2], double dir[2]) {
     imprimeSprite(dest, s+direcao, dim, dim, novaPos);
 }
 
-void imprimeAnims(PIC dest, Animacao a) {
+void imprimeAnims(PIC dest, Objeto *a) {
     double novaPos[2];
     int ticksPerSecond = FRAMES_PER_SECOND * TICKS_PER_FRAME;
-    int frame = (getTick() - a.inicio) * a.frames / ticksPerSecond / a.duracao;
-    if (frame >= a.frames) return;
-    transforma(a.pos, novaPos);
-    imprimeSprite(dest, a.s+frame, a.width, a.height, novaPos);
+    int frame = (getTick() - a->oAnim->inicio) * a->oAnim->frames / ticksPerSecond / a->oAnim->duracao;
+    if (frame >= a->oAnim->frames) return;
+    transforma(a->pos, novaPos);
+    imprimeSprite(dest, a->s+frame, a->oAnim->width, a->oAnim->height, novaPos);
 }
 
 void imprimaObjetos(PIC pic) {
-    int i;
+    Objeto *obj;
     double vet[2];
-    transforma(planeta.obj->pos, vet);
-    for (i = 0; i < nObjetos; i++) {
-        switch (objetos[i]->tipo) {
+    for (obj = listaObjetos->prox; obj != NULL; obj = obj->prox) {
+        switch (obj->categoria) {
             case PLANETA:
-                imprimeSprite(pic, objetos[i]->img, 100, 100, vet);
+                transforma(planeta->pos, vet);
+                imprimeSprite(pic, obj->s, 100, 100, vet);
                 break;
             case NAVE:
-                vet[0] = cos(objetos[i]->ang);
-                vet[1] = sin(objetos[i]->ang);
-                imprimeRot(pic, objetos[i]->img, 50, objetos[i]->pos, vet);
+                vet[0] = cos(obj->ang);
+                vet[1] = sin(obj->ang);
+                imprimeRot(pic, obj->s, 50, obj->pos, vet);
                 break;
             case PROJETIL:
-                //printf("imprimindo projetil %d\n", i);
-                imprimeRot(pic, objetos[i]->img, 50, objetos[i]->pos, objetos[i]->vel);
+                imprimeRot(pic, obj->s, 50, obj->pos, obj->vel);
+                break;
+            case ANIMACAO:
+                imprimeAnims(pic, obj);
                 break;
             default:
                 printf("imprimaObjetos(): Tipo indefinido.\n");
                 exit(EXIT_FAILURE);
         }
-    }
-
-    for (i = 0; i < nAnimacoes; i++) {
-        imprimeAnims(pic, animacoes[i]);
     }
 }

@@ -13,22 +13,10 @@
 #define MAX_FRAMES 32
 #define MAX_ANIMS 128
 
-typedef struct animacao {
-    double pos[2];
-    int frames;
-    int width;
-    int height;
-    double duracao;
-    int inicio;
-    Sprite *s;
-} Animacao;
-
 Sprite naves[2][NUM_ROTACOES];
 Sprite projetil[NUM_ROTACOES];
 Sprite planetaS;
 Sprite explosao[MAX_FRAMES];
-int nAnimacoes;
-Animacao animacoes[MAX_ANIMS];
 
 /*
     carregaSprite()
@@ -82,21 +70,6 @@ void carregaAnims(PIC win, char nome[], int frames, int width, int height, Sprit
         win - janela de exibição
 */
 void carregaObjetos(PIC win);
-
-/*
-    criaAnimacao()
-
-    Adiciona uma animação na lista de animações ativas na tela.
-
-    Parâmetros:
-        pos[] - posição da animação
-        width - largura da animação
-        height - altura da animação
-        frames - número de frames da animação
-        duracao - duração em segundos da animação
-        s - vetor dos frames da animação
-*/
-void criaAnimacao(double pos[], int width, int height, int frames, int duracao, Sprite *s);
 
 /*
     calculaDirecaoN()

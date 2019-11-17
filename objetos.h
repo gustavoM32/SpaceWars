@@ -4,24 +4,38 @@
 #include "xwc.h"
 
 #define MAX_OBJETOS 1024
-#define TEMPO_DISP 1
+#define TEMPO_DISP 0.3
 
-typedef struct sprite {
-    PIC img;
-    MASK mask;
-} Sprite;
+typedef enum objetos Categoria;
+typedef struct sprite Sprite;
+typedef struct objeto Objeto;
+typedef struct nave Nave;
+typedef struct projetil Projetil;
+typedef struct animacao Animacao;
+typedef union subObj SubObj;
 
 enum objetos {
     PLANETA,
     NAVE,
-    PROJETIL
+    PROJETIL,
+    ANIMACAO
 };
 
-typedef enum objetos TipoObjeto;
+struct sprite {
+    PIC img;
+    MASK mask;
+};
 
-typedef struct objeto {
-    TipoObjeto tipo;
-    Sprite *img;
+union subObj {
+    Nave *nave;
+    Projetil *projetil;
+    Animacao *animacao;
+};
+
+struct objeto {
+    Categoria categoria;
+    SubObj subObj;
+    Sprite *s;
     double massa;
     double raio;
     double pos[2];
@@ -29,31 +43,33 @@ typedef struct objeto {
     double res[2];
     double ang;
     int alive;
-} Objeto;
+    Objeto *prox;
+};
 
-typedef struct planeta {
-    Objeto *obj;
-} Planeta;
-
-typedef struct nave {
-    Objeto *obj;
-    int ultima;
+struct nave {
+    int id;
+    int ultimoDisparo;
     char nome[80];
-} Nave;
+};
 
-typedef struct projetil {
-    Objeto *obj;
+struct projetil {
     double duracao;
     int criado;
-} Projetil;
+};
 
-Planeta planeta;
-Nave nave[2];
-int nProjeteis;
+struct animacao {
+    int frames;
+    int width;
+    int height;
+    double duracao;
+    int inicio;
+};
+
+Objeto *planeta;
+Objeto *nave[2];
 double duracaoProjetil;
-Projetil projeteis[MAX_OBJETOS];
-int nObjetos;
-Objeto *objetos[MAX_OBJETOS];
+Objeto *listaObjetos;
+Objeto *fimListaObjetos;
 
 /*
     criaObjeto()
@@ -62,7 +78,26 @@ Objeto *objetos[MAX_OBJETOS];
  */
 Objeto *criaObjeto();
 
-void disparaProjetil(Nave *a);
+Objeto *criaNave();
+
+Objeto *criaProjetil();
+
+/*
+    criaAnimacao()
+
+    Adiciona uma animação na lista de animações ativas na tela.
+
+    Parâmetros:
+        pos[] - posição da animação
+        width - largura da animação
+        height - altura da animação
+        frames - número de frames da animação
+        duracao - duração em segundos da animação
+        s - vetor dos frames da animação
+*/
+Objeto *criaAnimacao(double pos[], int width, int height, int frames, int duracao, Sprite *s);
+
+void disparaProjetil(Objeto *a);
 
 /*
     mataObjetos()

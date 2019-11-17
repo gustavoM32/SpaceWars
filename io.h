@@ -23,6 +23,6 @@ A entrada será fornecida em um arquivo com o seguinte formato:
 
     Os valores serão fornecidos no sistema métrico.
 */
-int leiaArquivo();
+void leiaArquivo();
 
 #endif
