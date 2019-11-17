@@ -31,7 +31,7 @@ Objeto *criaNave(int id) {
     novo->categoria = NAVE;
     novo->raio = 15;
     novo->s = sprites.nave[id];
-    novo->ang = id*PI;
+    novo->ang = PI/2 + id*PI;
     novo->oNave = (Nave *) mallocSafe(sizeof(Nave));
     novo->oNave->id = id;
     novo->oNave->ultimoDisparo = 0;
