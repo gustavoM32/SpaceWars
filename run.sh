@@ -1,1 +1,0 @@
-./ep3 <rodarcasos.txt
