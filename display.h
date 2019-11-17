@@ -86,18 +86,26 @@ void carregaObjetos(PIC win);
 int calculaDirecaoN(double dir[2]);
 
 /*
+    calculaFrame()
+
+    Calcula o frame atual da animação.
+
+    Parâmetros:
+        obj - apontador para objeto de categoria ANIMACAO
+*/
+int calculaFrame(Objeto *obj);
+
+/*
     imprimeSprite()
 
-    Imprime o sprite s em dest.
+    Imprime o sprite de obj em dest.
 
     Parâmetros:
         dest - PIC em que será impresso o sprite
-        s - sprite a ser impresso
-        width - largura do sprite
-        height - altura do sprite
-        pos[] - posição do objeto que o sprite representa
+        obj - objeto a ser impresso
+        ind - posição do sprite no vetor de sprites do objeto
 */
-void imprimeSprite(PIC dest, Objeto *obj, int dir);
+void imprimeSprite(PIC dest, Objeto *obj, int ind);
 
 /*
     imprimaObjetos()

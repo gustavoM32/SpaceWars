@@ -38,6 +38,11 @@ void menuActions(WINDOW *w, int acao);
 */
 void checkForMenuActions(WINDOW *w);
 
+/*
+    iniciaTeclas()
+
+    Inicia todas as teclas como não pressionadas.
+*/
 void iniciaTeclas();
 
 /*

@@ -50,7 +50,7 @@ Objeto *criaProjetil() {
     return novo;
 }
 
-Objeto *criaAnimacao(double pos[], int frames, int duracao, Sprite *s) {
+Objeto *criaAnimacao(double pos[], int frames, double duracao, Sprite *s) {
     Objeto *novo = criaObjeto();
     novo->oAnim = (Animacao *) mallocSafe(sizeof(Animacao));
     novo->s = s;

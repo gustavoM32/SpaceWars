@@ -4,10 +4,9 @@
 /*
     leiaArquivo()
 
-A entrada será fornecida em um arquivo com o seguinte formato:
+    A entrada será fornecida em um arquivo com o seguinte formato:
 
     A primeira linha tem os parâmetros globais, separados por espaço:
-        Tamanho do planeta (raio).
         Massa do planeta.
         Tempo total de simulação.
     A segunda linha contém a descrição da primeira nave, com os seguintes campos separados por espaço:

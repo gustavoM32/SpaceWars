@@ -19,8 +19,7 @@ void leiaArquivo() {
         exit(EXIT_FAILURE);
     }
 
-    int excluir;
-    fscanf(arquivo, "%lf %lf %lf", &excluir, &(objetos.planeta->massa), &tempoSimulacao);
+    fscanf(arquivo, "%lf %lf", &(objetos.planeta->massa), &tempoSimulacao);
     for (i = 0; i < 2; i++) {
         fscanf(arquivo, "%s %lf %lf %lf %lf %lf", &(objetos.nave[i]->oNave->nome), &(objetos.nave[i]->massa), &(objetos.nave[i]->pos[0]), &(objetos.nave[i]->pos[1]), &(objetos.nave[i]->vel[0]), &(objetos.nave[i]->vel[1]));
     }

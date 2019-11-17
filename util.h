@@ -26,6 +26,16 @@ void *mallocSafe(size_t tam);
 */
 int mod(int a, int b);
 
+/*
+    modD()
+
+    Calcula a módulo b, podendo a ser negativo, de maneira
+    que 0 <= a mod b < b.
+
+    Parâmetros:
+        a - real qualquer
+        b - real positivo
+*/
 double modD(double a, double b);
 
 #endif

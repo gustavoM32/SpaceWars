@@ -8,7 +8,6 @@
 #define MAX_ACC 1.0e10
 #define GRAVIDADE 6.67e-11
 #define ACC_USUARIO 1e12
-/*Mudar depois NORMA_VEL */
 
 double tempoSimulacao;
 double passoSimulacao;
@@ -76,6 +75,9 @@ void addForcaGrav(Objeto *a, Objeto *b);
     atualizaPosicoes()
 
     Executa o passo da simulação para todos os corpos.
+
+    Parâmetros:
+        w - apontador para a janela
 */
 void atualizaPosicoes();
 
@@ -93,15 +95,15 @@ int colidiu(Objeto *a, Objeto *b);
 /*
     detectaColisoes()
 
-    Verifica todas as colisões e marca os objetos que colidiram como mortos.
+    Verifica todas as colisões e marca os objetos que
+    colidiram como mortos.
 */
 void detectaColisoes();
 
 /*
-    aumentaVelocidade()
+    accUsuario()
 
-    Aumenta a velocidade do objeto 'a' somando a um vetor de mesma
-    direcao e sentido, e norma NORMA_VEL
+    Acelera a nave na direção em que ela está apontando.
 
     Parametros:
         a - apontador para o objeto 'a'
@@ -109,12 +111,13 @@ void detectaColisoes();
 void accUsuario(Objeto *a);
 
 /*
-    rotacionaNaveH()
+    rotacionaNave()
 
-    Rotaciona a nave 'a' em 5 graus (aproximadamente) sentido horario
+    Rotaciona a nave apontada por 'a'.
 
     Parametros:
         a - apontador para a nave 'a'
+        sentido - 1 se anti-horário, -1 se horário
 */
 void rotacionaNave(Objeto *a, int sentido);
 

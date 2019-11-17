@@ -5,10 +5,8 @@
         Luiza Barros Reis Soezima, 11221842
         Marcos Siolin Martins, 11221709
 */
-#include <stdio.h>
 #include <stdlib.h>
 #include "game.h"
-#include "util.h"
 
 int main() {
     game();

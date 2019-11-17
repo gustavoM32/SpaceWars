@@ -77,42 +77,79 @@ Objetos objetos;
 /*
     criaObjeto()
 
-    Cria um novo objeto e adiciona ele no vetor objetos.
+    Cria um novo objeto e adiciona ele na lista ligada de objetos.
  */
 Objeto *criaObjeto();
 
+/*
+    criaNave()
+
+    Cria nave e adiciona na lista ligada de objetos.
+
+    Parâmetros:
+        id - 0 ou 1
+*/
 Objeto *criaNave(int id);
 
+/*
+    criaProjetil()
+
+    Cria projetil e adiciona na lista ligada de objetos.
+*/
 Objeto *criaProjetil();
 
 /*
     criaAnimacao()
 
-    Adiciona uma animação na lista de animações ativas na tela.
+    Cria uma animação e adiciona na lista ligada de objetos.
 
     Parâmetros:
         pos[] - posição da animação
-        width - largura da animação
-        height - altura da animação
         frames - número de frames da animação
         duracao - duração em segundos da animação
         s - vetor dos frames da animação
 */
-Objeto *criaAnimacao(double pos[], int frames, int duracao, Sprite *s);
+Objeto *criaAnimacao(double pos[], int frames, double duracao, Sprite *s);
 
+/*
+    criaObjetos()
+
+    Cria todos os objetos iniciais do jogo.
+*/
 void criaObjetos();
 
+/*
+    freeObjeto()
+
+    Libera a memória usada por um objeto.
+
+    Parâmetros:
+        obj - apontador para o objeto
+*/
 void freeObjeto(Objeto *obj);
 
+/*
+    freeObjetos()
+
+    Libera a memória usada por todos os objetos.
+*/
 void freeObjetos();
 
+/*
+    disparaProjetil()
+
+    Dispara um projétil partindo do objeto a.
+
+    Parâmetros:
+        a - apontador para o objeto a
+*/
 void disparaProjetil(Objeto *a);
 
 /*
     mataObjetos()
 
     Destrói todos os objetos marcados como mortos.
- */
+*/
 void mataObjetos();
 
 #endif

@@ -18,5 +18,5 @@ int mod(int a, int b) {
 }
 
 double modD(double a, double b) {
-    return a - b*floor(a / b);
+    return a > 0.0 ? fmod(a, b) : fmod((fmod(a, b) + b), b);
 }

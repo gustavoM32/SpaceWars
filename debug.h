@@ -9,6 +9,4 @@
 #  define db(x)
 #endif
 
-void mostraPosicoes();
-
 #endif

@@ -29,9 +29,9 @@ void menuActions(WINDOW *w, int acao) {
     }
 }
 
-void checkForMenuActions(WINDOW *w) {
+/*void checkForMenuActions(WINDOW *w) {
     int key;
-    /*if(WCheckKBD(w)){
+    if(WCheckKBD(w)){
         key = WGetKey(w);
         switch (key)
         {
@@ -49,8 +49,8 @@ void checkForMenuActions(WINDOW *w) {
         default:
             break;
         }
-    }*/
-}
+    }
+}*/
 
 void iniciaTeclas() {
     int i, j;

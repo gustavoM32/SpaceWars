@@ -66,11 +66,11 @@ int calculaFrame(Objeto *obj) {
     return frame < obj->oAnim->frames ? frame : obj->oAnim->frames;
 }
 
-void imprimeSprite(PIC dest, Objeto *obj, int dir) {
+void imprimeSprite(PIC dest, Objeto *obj, int ind) {
     double vet[2];
     transforma(obj->pos, vet);
-    SetMask(dest, obj->s[dir].mask);
-    PutPic(dest, obj->s[dir].img, 0, 0, obj->s[dir].width, obj->s[dir].height, vet[0] - obj->s[dir].width/2, vet[1] - obj->s[dir].height/2);
+    SetMask(dest, obj->s[ind].mask);
+    PutPic(dest, obj->s[ind].img, 0, 0, obj->s[ind].width, obj->s[ind].height, vet[0] - obj->s[ind].width/2, vet[1] - obj->s[ind].height/2);
     UnSetMask(dest);
 }
 
