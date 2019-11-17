@@ -5,7 +5,7 @@
 
 #define PI 3.14159265
 #define EPSILON 1.0e-10
-#define MAX_ACC 1.0e7
+#define MAX_ACC 1.0e8
 #define GRAVIDADE 6.67e-11
 #define ACC_USUARIO 1e12
 /*Mudar depois NORMA_VEL */

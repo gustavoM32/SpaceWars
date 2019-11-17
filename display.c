@@ -4,7 +4,7 @@
 #include "objetos.h"
 #include "display.h"
 #include "fisica.h"
-#include "tick.h"
+#include "game.h"
 #include "util.h"
 #include "debug.h"
 

@@ -4,7 +4,7 @@
 #include <string.h>
 #include "objetos.h"
 #include "io.h"
-#include "tick.h"
+#include "game.h"
 #include "display.h"
 #include "util.h"
 #include "game.h"

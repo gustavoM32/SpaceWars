@@ -7,7 +7,7 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include "tick.h"
+#include "game.h"
 #include "util.h"
 
 int main() {
