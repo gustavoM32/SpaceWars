@@ -3,8 +3,7 @@
 
 #include "xwc.h"
 
-#define MAX_OBJETOS 1024
-#define TEMPO_DISP 0.3
+#define TEMPO_DISP 0.5
 
 typedef enum categoria Categoria;
 typedef struct sprite Sprite;

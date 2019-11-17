@@ -63,7 +63,7 @@ void gameLoop() {
 }
 
 void game() {
-    int i;
+    int repeticoes = 3;
     passoSimulacao = 1.0 / (FRAMES_PER_SECOND * TICKS_PER_FRAME);
 
     w = InitGraph(WIDTH, HEIGHT, "My windows xp");
@@ -75,7 +75,7 @@ void game() {
     fundo = ReadPic(w, "assets/background.xpm", NULL);
     db(printf("Passo simulação = %lf\n", passoSimulacao));
 
-    while (1) gameLoop();
+    while (repeticoes--) gameLoop();
 
     XAutoRepeatOn(getDisplay());
     CloseGraph();
