@@ -22,6 +22,8 @@ enum objetos {
 };
 
 struct sprite {
+    int width;
+    int height;
     PIC img;
     MASK mask;
 };
@@ -59,8 +61,6 @@ struct projetil {
 
 struct animacao {
     int frames;
-    int width;
-    int height;
     double duracao;
     int inicio;
 };
@@ -95,7 +95,7 @@ Objeto *criaProjetil();
         duracao - duração em segundos da animação
         s - vetor dos frames da animação
 */
-Objeto *criaAnimacao(double pos[], int width, int height, int frames, int duracao, Sprite *s);
+Objeto *criaAnimacao(double pos[], int frames, int duracao, Sprite *s);
 
 void disparaProjetil(Objeto *a);
 

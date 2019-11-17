@@ -27,7 +27,7 @@ void leiaArquivo() {
 
     planeta = criaObjeto();
     planeta->categoria = PLANETA;
-    planeta->s = &planetaS;
+    planeta->s = &(sprites.planetaS);
     fscanf(arquivo, "%lf %lf %lf", &(planeta->raio), &(planeta->massa), &tempoSimulacao);
     planeta->raio = 45;
 
@@ -35,7 +35,7 @@ void leiaArquivo() {
         nave[i] = criaNave();
         nave[i]->oNave->id = i;
         nave[i]->categoria = NAVE;
-        nave[i]->s = naves[i];
+        nave[i]->s = sprites.naves[i];
         fscanf(arquivo, "%s %lf %lf %lf %lf %lf", &(nave[i]->oNave->nome), &(nave[i]->massa), &(nave[i]->pos[0]), &(nave[i]->pos[1]), &(nave[i]->vel[0]), &(nave[i]->vel[1]));
         nave[i]->alive = 1;
         nave[i]->raio = 15;
@@ -47,7 +47,7 @@ void leiaArquivo() {
     for(i = 0; i < nProjeteis; i++) {
         novo = criaProjetil();
         novo->categoria = PROJETIL;
-        novo->s = projetil;
+        novo->s = sprites.projetil;
         fscanf(arquivo, "%lf %lf %lf %lf %lf", &(novo->massa), &(novo->pos[0]), &(novo->pos[1]), &(novo->vel[0]), &(novo->vel[1]));
         novo->alive = 1;
         novo->raio = 4;

@@ -40,15 +40,13 @@ Objeto *criaProjetil() {
     return novo;
 }
 
-Objeto *criaAnimacao(double pos[], int width, int height, int frames, int duracao, Sprite *s) {
+Objeto *criaAnimacao(double pos[], int frames, int duracao, Sprite *s) {
     Objeto *novo = criaObjeto();
     novo->oAnim = (Animacao *) mallocSafe(sizeof(Animacao));
     novo->s = s;
     novo->categoria = ANIMACAO;
     novo->pos[0] = pos[0];
     novo->pos[1] = pos[1];
-    novo->oAnim->width = width;
-    novo->oAnim->height = height;
     novo->oAnim->frames = frames;
     novo->oAnim->duracao = duracao;
     novo->oAnim->inicio = getTick();
@@ -61,7 +59,7 @@ void disparaProjetil(Objeto *a) {
     a->oNave->ultimoDisparo = getTick();
     novo = criaProjetil();
     novo->categoria = PROJETIL;
-    novo->s = projetil;
+    novo->s = sprites.projetil;
     novo->alive = 1;
     novo->raio = 4;
     novo->massa = 2;
@@ -78,10 +76,12 @@ void mataObjetos() {
     Objeto *atual = listaObjetos->prox;
     while (atual != NULL) {
         switch (atual->categoria) {
+            case PLANETA:
+                break;
             case NAVE:
                 if (!atual->alive) {
                     db(printf("Nave '%s' explodiu.\n", atual->oNave->nome));
-                    criaAnimacao(atual->pos, 50, 60, 15, 1, explosao);
+                    criaAnimacao(atual->pos, 15, 1, sprites.explosao);
                     nave[atual->oNave->id] = NULL;
                 }
                 break;
@@ -93,6 +93,9 @@ void mataObjetos() {
                     atual->alive = 0;
                 }
                 break;
+            default:
+                printf("mataObjetos(): Tipo indefinido.\n");
+                exit(EXIT_FAILURE);
         }
         // Tomar cuidado com o fato de as naves não existirem mais depois de explodidas
         if (!atual->alive) {

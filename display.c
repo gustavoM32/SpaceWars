@@ -6,11 +6,14 @@
 #include "fisica.h"
 #include "tick.h"
 #include "util.h"
+#include "debug.h"
 
 void carregaSprite(PIC win, char nome[], int width, int height, Sprite *s) {
     char path[] = "assets/sprites/";
     char nomeSprite[256];
     sprintf(nomeSprite, "%s%s.xpm", path, nome);
+    s->width = width;
+    s->height = height;
     s->mask = NewMask(win, width, height);
     s->img = ReadPic(win, nomeSprite, s->mask);
 }
@@ -34,16 +37,16 @@ void carregaAnims(PIC win, char nome[], int frames, int width, int height, Sprit
 }
 
 void carregaObjetos(PIC win) {
-    printf("Carregando planeta...\n");
-    carregaSprite(win, "planeta/planeta", 100, 100, &planetaS);
-    printf("Carregando nave1...\n");
-    carregaRots(win, "nave1/nave1", 50, 50, naves[0]);
-    printf("Carregando nave2...\n");
-    carregaRots(win, "nave2/nave2", 50, 50, naves[1]);
-    printf("Carregando projetil1...\n");
-    carregaRots(win, "projetil1/projetil1", 50, 50, projetil);
-    printf("Carregando explosion...\n");
-    carregaAnims(win, "exp/explosion", 15, 50, 60, explosao);
+    db(printf("Carregando planeta...\n"));
+    carregaSprite(win, "planeta/planeta", 100, 100, &(sprites.planetaS));
+    db(printf("Carregando nave1...\n"));
+    carregaRots(win, "nave1/nave1", 50, 50, sprites.naves[0]);
+    db(printf("Carregando nave2...\n"));
+    carregaRots(win, "nave2/nave2", 50, 50, sprites.naves[1]);
+    db(printf("Carregando projetil1...\n"));
+    carregaRots(win, "projetil1/projetil1", 50, 50, sprites.projetil);
+    db(printf("Carregando explosion...\n"));
+    carregaAnims(win, "exp/explosion", 15, 50, 60, sprites.explosao);
 }
 
 int calculaDirecaoN(double dir[2]) {
@@ -57,26 +60,18 @@ int calculaDirecaoN(double dir[2]) {
     return (int) angulo % NUM_ROTACOES;
 }
 
-void imprimeSprite(PIC dest, Sprite *s, int width, int height, double pos[2]) {
-    SetMask(dest, s->mask);
-    PutPic(dest, s->img, 0, 0, width, height, pos[0] - width/2, pos[1] - height/2);
-    UnSetMask(dest);
-}
-
-void imprimeRot(PIC dest, Sprite s[], int dim, double pos[2], double dir[2]) {
-    double novaPos[2];
-    transforma(pos, novaPos);
-    int direcao = calculaDirecaoN(dir);
-    imprimeSprite(dest, s+direcao, dim, dim, novaPos);
-}
-
-void imprimeAnims(PIC dest, Objeto *a) {
-    double novaPos[2];
+int calculaFrame(Objeto *obj) {
     int ticksPerSecond = FRAMES_PER_SECOND * TICKS_PER_FRAME;
-    int frame = (getTick() - a->oAnim->inicio) * a->oAnim->frames / ticksPerSecond / a->oAnim->duracao;
-    if (frame >= a->oAnim->frames) return;
-    transforma(a->pos, novaPos);
-    imprimeSprite(dest, a->s+frame, a->oAnim->width, a->oAnim->height, novaPos);
+    int frame = (getTick() - obj->oAnim->inicio) * obj->oAnim->frames / ticksPerSecond / obj->oAnim->duracao;
+    return frame < obj->oAnim->frames ? frame : obj->oAnim->frames;
+}
+
+void imprimeSprite(PIC dest, Objeto *obj, int dir) {
+    double vet[2];
+    transforma(obj->pos, vet);
+    SetMask(dest, obj->s[dir].mask);
+    PutPic(dest, obj->s[dir].img, 0, 0, obj->s[dir].width, obj->s[dir].height, vet[0] - obj->s[dir].width/2, vet[1] - obj->s[dir].height/2);
+    UnSetMask(dest);
 }
 
 void imprimaObjetos(PIC pic) {
@@ -85,19 +80,18 @@ void imprimaObjetos(PIC pic) {
     for (obj = listaObjetos->prox; obj != NULL; obj = obj->prox) {
         switch (obj->categoria) {
             case PLANETA:
-                transforma(planeta->pos, vet);
-                imprimeSprite(pic, obj->s, 100, 100, vet);
+                imprimeSprite(pic, obj, 0);
                 break;
             case NAVE:
                 vet[0] = cos(obj->ang);
                 vet[1] = sin(obj->ang);
-                imprimeRot(pic, obj->s, 50, obj->pos, vet);
+                imprimeSprite(pic, obj, calculaDirecaoN(vet));
                 break;
             case PROJETIL:
-                imprimeRot(pic, obj->s, 50, obj->pos, obj->vel);
+                imprimeSprite(pic, obj, calculaDirecaoN(obj->vel));
                 break;
             case ANIMACAO:
-                imprimeAnims(pic, obj);
+                imprimeSprite(pic, obj, calculaFrame(obj));
                 break;
             default:
                 printf("imprimaObjetos(): Tipo indefinido.\n");

@@ -13,10 +13,14 @@
 #define MAX_FRAMES 32
 #define MAX_ANIMS 128
 
-Sprite naves[2][NUM_ROTACOES];
-Sprite projetil[NUM_ROTACOES];
-Sprite planetaS;
-Sprite explosao[MAX_FRAMES];
+typedef struct sprites {
+    Sprite naves[2][NUM_ROTACOES];
+    Sprite projetil[NUM_ROTACOES];
+    Sprite planetaS;
+    Sprite explosao[MAX_FRAMES];
+} Sprites;
+
+Sprites sprites;
 
 /*
     carregaSprite()
@@ -93,23 +97,7 @@ int calculaDirecaoN(double dir[2]);
         height - altura do sprite
         pos[] - posição do objeto que o sprite representa
 */
-void imprimeSprite(PIC dest, Sprite *s, int width, int height, double pos[2]);
-
-/*
-    imprimeRot()
-
-    Imprime o sprite s em dest de acordo com a orientação
-    do objeto que ele representa.
-
-    Parâmetros:
-        dest - PIC em que será impresso o sprite
-        s[] - sprite a ser impresso
-        width - largura do sprite
-        height - altura do sprite
-        pos[] - posição do objeto que o sprite representa
-        vel[] - veliocidade do objeto que o sprite representa
-*/
-void imprimeRot(PIC dest, Sprite s[], int dim, double pos[2], double dir[2]);
+void imprimeSprite(PIC dest, Objeto *obj, int dir);
 
 /*
     imprimaObjetos()
