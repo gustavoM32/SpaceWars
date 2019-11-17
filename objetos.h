@@ -6,15 +6,16 @@
 #define MAX_OBJETOS 1024
 #define TEMPO_DISP 0.3
 
-typedef enum objetos Categoria;
+typedef enum categoria Categoria;
 typedef struct sprite Sprite;
 typedef struct objeto Objeto;
 typedef struct nave Nave;
 typedef struct projetil Projetil;
 typedef struct animacao Animacao;
+typedef struct objetos Objetos;
 typedef union subObj SubObj;
 
-enum objetos {
+enum categoria {
     PLANETA,
     NAVE,
     PROJETIL,
@@ -65,11 +66,14 @@ struct animacao {
     int inicio;
 };
 
-Objeto *planeta;
-Objeto *nave[2];
-double duracaoProjetil;
-Objeto *listaObjetos;
-Objeto *fimListaObjetos;
+struct objetos {
+    Objeto *planeta;
+    Objeto *nave[2];
+    Objeto *iniObjs;
+    Objeto *fimObjs;
+};
+
+Objetos objetos;
 
 /*
     criaObjeto()
@@ -78,7 +82,7 @@ Objeto *fimListaObjetos;
  */
 Objeto *criaObjeto();
 
-Objeto *criaNave();
+Objeto *criaNave(int id);
 
 Objeto *criaProjetil();
 
@@ -96,6 +100,12 @@ Objeto *criaProjetil();
         s - vetor dos frames da animação
 */
 Objeto *criaAnimacao(double pos[], int frames, int duracao, Sprite *s);
+
+void criaObjetos();
+
+void freeObjeto(Objeto *obj);
+
+void freeObjetos();
 
 void disparaProjetil(Objeto *a);
 

@@ -65,25 +65,25 @@ void atualizaPosicoes(WINDOW *w) {
     int supw = FATOR*WIDTH;
     int suph = FATOR*HEIGHT;
 
-    for (obj1 = listaObjetos->prox; obj1 != NULL; obj1 = obj1->prox) {
+    for (obj1 = objetos.iniObjs->prox; obj1 != NULL; obj1 = obj1->prox) {
         obj1->res[0] = obj1->res[1] = 0;
     }
 
-    for (obj1 = listaObjetos->prox; obj1 != NULL; obj1 = obj1->prox) {
+    for (obj1 = objetos.iniObjs->prox; obj1 != NULL; obj1 = obj1->prox) {
         for (obj2 = obj1->prox; obj2 != NULL; obj2 = obj2->prox) {
             addForcaGrav(obj1, obj2);
         }
     }
 
     for (i = 0; i < 2; i++) {
-        if (nave[i] == NULL) continue;
-        if (teclas[i][0]) accUsuario(nave[i]);
-        if (teclas[i][1]) rotacionaNave(nave[i], 1);
-        if (teclas[i][2]) disparaProjetil(nave[i]);
-        if (teclas[i][3]) rotacionaNave(nave[i], -1);
+        if (objetos.nave[i] == NULL) continue;
+        if (teclas[i][0]) accUsuario(objetos.nave[i]);
+        if (teclas[i][1]) rotacionaNave(objetos.nave[i], 1);
+        if (teclas[i][2]) disparaProjetil(objetos.nave[i]);
+        if (teclas[i][3]) rotacionaNave(objetos.nave[i], -1);
     }
 
-    for (obj1 = listaObjetos->prox; obj1 != NULL; obj1 = obj1->prox) {
+    for (obj1 = objetos.iniObjs->prox; obj1 != NULL; obj1 = obj1->prox) {
         if (obj1->categoria == ANIMACAO) continue;
         /* aplica aceleração */
         obj1->vel[0] += (obj1->res[0] / obj1->massa) * passoSimulacao;
@@ -105,7 +105,7 @@ int colidiu(Objeto *a, Objeto *b) {
 
 void detectaColisoes() {
     Objeto *obj1, *obj2;
-    for (obj1 = listaObjetos->prox; obj1 != NULL; obj1 = obj1->prox) {
+    for (obj1 = objetos.iniObjs->prox; obj1 != NULL; obj1 = obj1->prox) {
         for (obj2 = obj1->prox; obj2 != NULL; obj2 = obj2->prox) {
             if (obj1->categoria == ANIMACAO || obj2->categoria == ANIMACAO) continue;
             if (colidiu(obj1, obj2)) {

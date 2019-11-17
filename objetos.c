@@ -3,9 +3,11 @@
 #include <math.h>
 #include <string.h>
 #include "objetos.h"
+#include "io.h"
 #include "tick.h"
 #include "display.h"
 #include "util.h"
+#include "game.h"
 #include "debug.h"
 
 Objeto *criaObjeto() {
@@ -20,13 +22,18 @@ Objeto *criaObjeto() {
     }
     novo->alive = 1;
     novo->prox = NULL;
-    fimListaObjetos = fimListaObjetos->prox = novo;
+    objetos.fimObjs = objetos.fimObjs->prox = novo;
     return novo;
 }
 
-Objeto *criaNave() {
+Objeto *criaNave(int id) {
     Objeto *novo = criaObjeto();
+    novo->categoria = NAVE;
+    novo->raio = 15;
+    novo->s = sprites.nave[id];
+    novo->ang = id*PI;
     novo->oNave = (Nave *) mallocSafe(sizeof(Nave));
+    novo->oNave->id = id;
     novo->oNave->ultimoDisparo = 0;
     strcpy(novo->oNave->nome, "nave");
     return novo;
@@ -34,9 +41,12 @@ Objeto *criaNave() {
 
 Objeto *criaProjetil() {
     Objeto *novo = criaObjeto();
+    novo->categoria = PROJETIL;
+    novo->s = sprites.projetil;
+    novo->raio = 4;
     novo->oProj = (Projetil *) mallocSafe(sizeof(Projetil));
-    novo->oProj->duracao = duracaoProjetil;
-    novo->oProj->criado = 0;
+    novo->oProj->duracao = config.duracaoProjetil;
+    novo->oProj->criado = getTick();
     return novo;
 }
 
@@ -53,27 +63,71 @@ Objeto *criaAnimacao(double pos[], int frames, int duracao, Sprite *s) {
     return novo;
 }
 
+void criaObjetos() {
+    int i;
+    objetos.fimObjs = objetos.iniObjs = (Objeto *) mallocSafe(sizeof(Objeto));
+    objetos.iniObjs->prox = NULL;
+
+    objetos.planeta = criaObjeto();
+    objetos.planeta->categoria = PLANETA;
+    objetos.planeta->s = &(sprites.planetaS);
+    objetos.planeta->raio = 45;
+
+    for (i = 0; i < 2; i++) {
+        objetos.nave[i] = criaNave(i);
+    }
+
+    leiaArquivo();
+}
+
+void freeObjeto(Objeto *obj) {
+    switch (obj->categoria) {
+        case PLANETA:
+            break;
+        case NAVE:
+            free(obj->oNave);
+            break;
+        case PROJETIL:
+            free(obj->oProj);
+            break;
+        case ANIMACAO:
+            free(obj->oAnim);
+            break;
+        default:
+            printf("freeObjeto(): Tipo indefinido.\n");
+            exit(EXIT_FAILURE);
+    }
+    free(obj);
+}
+
+void freeObjetos() {
+    Objeto *atual = objetos.iniObjs->prox;
+    Objeto *del;
+    while (atual != NULL) {
+        del = atual;
+        atual = atual->prox;
+        freeObjeto(del);
+    }
+    objetos.iniObjs->prox = NULL;
+    objetos.fimObjs = objetos.iniObjs;
+}
+
 void disparaProjetil(Objeto *a) {
     Objeto *novo;
     if (getTick() - a->oNave->ultimoDisparo < TEMPO_DISP * FRAMES_PER_SECOND * TICKS_PER_FRAME) return;
     a->oNave->ultimoDisparo = getTick();
     novo = criaProjetil();
-    novo->categoria = PROJETIL;
-    novo->s = sprites.projetil;
-    novo->alive = 1;
-    novo->raio = 4;
     novo->massa = 2;
     novo->pos[0] = a->pos[0] + 40 * FATOR * cos(a->ang);
     novo->pos[1] = a->pos[1] + 40 * FATOR * sin(a->ang);
     novo->vel[0] = 400 * FATOR * cos(a->ang);
     novo->vel[1] = 400 * FATOR * sin(a->ang);
-    novo->oProj->criado = getTick();
 }
 
 void mataObjetos() {
     int ticksPerSec = (FRAMES_PER_SECOND * TICKS_PER_FRAME);
-    Objeto *fimLista = listaObjetos;
-    Objeto *atual = listaObjetos->prox;
+    Objeto *fimLista = objetos.iniObjs;
+    Objeto *atual = objetos.iniObjs->prox;
     while (atual != NULL) {
         switch (atual->categoria) {
             case PLANETA:
@@ -82,7 +136,7 @@ void mataObjetos() {
                 if (!atual->alive) {
                     db(printf("Nave '%s' explodiu.\n", atual->oNave->nome));
                     criaAnimacao(atual->pos, 15, 1, sprites.explosao);
-                    nave[atual->oNave->id] = NULL;
+                    objetos.nave[atual->oNave->id] = NULL;
                 }
                 break;
             case PROJETIL:
@@ -97,7 +151,6 @@ void mataObjetos() {
                 printf("mataObjetos(): Tipo indefinido.\n");
                 exit(EXIT_FAILURE);
         }
-        // Tomar cuidado com o fato de as naves não existirem mais depois de explodidas
         if (!atual->alive) {
             fimLista->prox = atual->prox;
             free(atual);
@@ -106,5 +159,5 @@ void mataObjetos() {
         }
         atual = fimLista->prox;
     }
-    fimListaObjetos = fimLista;
+    objetos.fimObjs = fimLista;
 }

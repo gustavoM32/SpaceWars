@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include "tick.h"
 #include "debug.h"
@@ -11,9 +12,9 @@
 #include <X11/Xlib.h>
 #include "xwc.h"
 
-static long int tick = 0;
+static int tick = 0;
 int loser = 0;
-int endTick = -1;
+int endTick;
 
 WINDOW *w;
 PIC rasc;
@@ -26,9 +27,9 @@ int getTick() {
 void endGame() {
     endTick = tick + 5 * TICKS_PER_FRAME * FRAMES_PER_SECOND;
     if (loser == 1) {
-        printf("Nave '%s' ganhou!\n", nave[1]->oNave->nome);
+        printf("Nave '%s' ganhou!\n", objetos.nave[1]->oNave->nome);
     } else if (loser == 2) {
-        printf("Nave '%s' ganhou!\n", nave[0]->oNave->nome);
+        printf("Nave '%s' ganhou!\n", objetos.nave[0]->oNave->nome);
     } else {
         printf("Ambas perderam!\n");
     }
@@ -36,6 +37,9 @@ void endGame() {
 
 void gameLoop() {
     tick = 0;
+    loser = 0;
+    endTick = -1;
+    criaObjetos();
     iniciaTeclas();
     while (endTick == -1 || tick <= endTick) {
         checkForActions(w);
@@ -48,29 +52,30 @@ void gameLoop() {
             PutPic(w, rasc, 0, 0, WIDTH, HEIGHT, 0, 0);
         }
         if (endTick == -1) {
-            loser += nave[0] == NULL ? 1 : 0;
-            loser += nave[1] == NULL ? 2 : 0;
+            loser += objetos.nave[0] == NULL ? 1 : 0;
+            loser += objetos.nave[1] == NULL ? 2 : 0;
             if (loser != 0) endGame();
         }
         usleep(1000000.0 * passoSimulacao);
         tick++;
     }
+    freeObjetos();
 }
 
 void game() {
     int i;
-    leiaArquivo();
-
     passoSimulacao = 1.0 / (FRAMES_PER_SECOND * TICKS_PER_FRAME);
+
     w = InitGraph(WIDTH, HEIGHT, "My windows xp");
     InitKBD(w);
     rasc = NewPic(w, WIDTH, HEIGHT);
     carregaObjetos(w);
+
     db(printf("Carregando assets/background.xpm...\n"));
     fundo = ReadPic(w, "assets/background.xpm", NULL);
     db(printf("Passo simulação = %lf\n", passoSimulacao));
 
-    gameLoop();
+    while (1) gameLoop();
 
     XAutoRepeatOn(getDisplay());
     CloseGraph();

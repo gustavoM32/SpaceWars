@@ -14,7 +14,7 @@
 #define MAX_ANIMS 128
 
 typedef struct sprites {
-    Sprite naves[2][NUM_ROTACOES];
+    Sprite nave[2][NUM_ROTACOES];
     Sprite projetil[NUM_ROTACOES];
     Sprite planetaS;
     Sprite explosao[MAX_FRAMES];

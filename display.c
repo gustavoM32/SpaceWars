@@ -40,9 +40,9 @@ void carregaObjetos(PIC win) {
     db(printf("Carregando planeta...\n"));
     carregaSprite(win, "planeta/planeta", 100, 100, &(sprites.planetaS));
     db(printf("Carregando nave1...\n"));
-    carregaRots(win, "nave1/nave1", 50, 50, sprites.naves[0]);
+    carregaRots(win, "nave1/nave1", 50, 50, sprites.nave[0]);
     db(printf("Carregando nave2...\n"));
-    carregaRots(win, "nave2/nave2", 50, 50, sprites.naves[1]);
+    carregaRots(win, "nave2/nave2", 50, 50, sprites.nave[1]);
     db(printf("Carregando projetil1...\n"));
     carregaRots(win, "projetil1/projetil1", 50, 50, sprites.projetil);
     db(printf("Carregando explosion...\n"));
@@ -77,7 +77,7 @@ void imprimeSprite(PIC dest, Objeto *obj, int dir) {
 void imprimaObjetos(PIC pic) {
     Objeto *obj;
     double vet[2];
-    for (obj = listaObjetos->prox; obj != NULL; obj = obj->prox) {
+    for (obj = objetos.iniObjs->prox; obj != NULL; obj = obj->prox) {
         switch (obj->categoria) {
             case PLANETA:
                 imprimeSprite(pic, obj, 0);
