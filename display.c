@@ -69,6 +69,7 @@ int calculaFrame(Objeto *obj) {
 void imprimeSprite(PIC dest, Objeto *obj, int ind) {
     double vet[2];
     transforma(obj->pos, vet);
+    if (obj->s[ind].mask == NULL) return;
     SetMask(dest, obj->s[ind].mask);
     PutPic(dest, obj->s[ind].img, 0, 0, obj->s[ind].width, obj->s[ind].height, vet[0] - obj->s[ind].width/2, vet[1] - obj->s[ind].height/2);
     UnSetMask(dest);

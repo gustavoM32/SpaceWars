@@ -14,20 +14,6 @@
 int teclas[2][4];
 
 /*
-    menuActions()
-
-    realiza a acao 'acao'
-
-    Parametros:
-        WINDOW *w - ponteiro para a janela de onde serao identificadas as teclas
-        int acao - codigo da acao a ser realizada:
-            0 = desce a seta
-            1 = sobe a seta
-            2 = confirma opcao
-*/
-void menuActions(WINDOW *w, int acao);
-
-/*
     checkForMenuActions()
 
     Checa se a ultima tecla pressionada e' uma acao valida do menu

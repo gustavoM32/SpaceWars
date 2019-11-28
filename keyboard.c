@@ -2,37 +2,14 @@
 #include "keyboard.h"
 #include "fisica.h"
 #include "objetos.h"
-
-#define OPTIONS_LIMIT 2
+#include "game.h"
 
 int opcao = 0;
 
-void menuActions(WINDOW *w, int acao) {
-    switch (acao)
-    {
-    case 0:
-        if(opcao < OPTIONS_LIMIT) {
-            opcao++;
-            /* desce seta */
-        }
-        break;
-    case 1:
-        if(opcao) {
-            opcao--;
-            /* sobe seta */
-        }
-        break;
-    case 2:
-        /* pressiona enter */
-    default:
-        break;
-    }
-}
-
-/*void checkForMenuActions(WINDOW *w) {
+void checkForMenuActions(WINDOW *w) {
     int key;
-    if(WCheckKBD(w)){
-        key = WGetKey(w);
+    if(WCheckKBDPress(w)){
+        key = WGetKeyPress(w);
         switch (key)
         {
         case W_KEY:
@@ -50,7 +27,7 @@ void menuActions(WINDOW *w, int acao) {
             break;
         }
     }
-}*/
+}
 
 void iniciaTeclas() {
     int i, j;
