@@ -8,7 +8,21 @@
 
 typedef struct config Config;
 
+typedef struct playerControls PlayerControls;
+
+struct playerControls {
+    int up;
+    int down;
+    int left;
+    int right;
+};
+
 struct config {
+    PlayerControls player1;
+    PlayerControls player2;
+    int pauseKey;
+    int numberOfLives;
+    double gameDuration;
     double duracaoProjetil;
 };
 

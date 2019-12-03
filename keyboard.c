@@ -42,24 +42,24 @@ void checkForActions(WINDOW *w) {
     int key;
     if (WCheckKBDPress(w)) {
         key = WGetKeyPress(w);
-        if (key == W_KEY) teclas[0][0] = 1;
-        if (key == A_KEY) teclas[0][1] = 1;
-        if (key == S_KEY) teclas[0][2] = 1;
-        if (key == D_KEY) teclas[0][3] = 1;
-        if (key == UP_ARROW_KEY) teclas[1][0] = 1;
-        if (key == LEFT_ARROW_KEY) teclas[1][1] = 1;
-        if (key == DOWN_ARROW_KEY) teclas[1][2] = 1;
-        if (key == RIGHT_ARROW_KEY) teclas[1][3] = 1;
+        if (key == config.player1.up) teclas[0][0] = 1;
+        if (key == config.player1.left) teclas[0][1] = 1;
+        if (key == config.player1.down) teclas[0][2] = 1;
+        if (key == config.player1.right) teclas[0][3] = 1;
+        if (key == config.player2.up) teclas[1][0] = 1;
+        if (key == config.player2.left) teclas[1][1] = 1;
+        if (key == config.player2.down) teclas[1][2] = 1;
+        if (key == config.player2.right) teclas[1][3] = 1;
     }
     if (WCheckKBDRelease(w)) {
-        key = WGetKeyRelease(w);
-        if (key == W_KEY) teclas[0][0] = 0;
-        if (key == A_KEY) teclas[0][1] = 0;
-        if (key == S_KEY) teclas[0][2] = 0;
-        if (key == D_KEY) teclas[0][3] = 0;
-        if (key == UP_ARROW_KEY) teclas[1][0] = 0;
-        if (key == LEFT_ARROW_KEY) teclas[1][1] = 0;
-        if (key == DOWN_ARROW_KEY) teclas[1][2] = 0;
-        if (key == RIGHT_ARROW_KEY) teclas[1][3] = 0;
+        key = WGetKeyRelease(w);        
+        if (key == config.player1.up) teclas[0][0] = 0;
+        if (key == config.player1.left) teclas[0][1] = 0;
+        if (key == config.player1.down) teclas[0][2] = 0;
+        if (key == config.player1.right) teclas[0][3] = 0;
+        if (key == config.player2.up) teclas[1][0] = 0;
+        if (key == config.player2.left) teclas[1][1] = 0;
+        if (key == config.player2.down) teclas[1][2] = 0;
+        if (key == config.player2.right) teclas[1][3] = 0;
     }
 }
