@@ -102,17 +102,10 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-<<<<<<< HEAD
 am_ep4_OBJECTS = ep4.$(OBJEXT)
 ep4_OBJECTS = $(am_ep4_OBJECTS)
 ep4_DEPENDENCIES = xwc.o fisica.o display.o io.o objetos.o util.o \
 	keyboard.o game.o
-=======
-am_ep3_OBJECTS = ep3.$(OBJEXT)
-ep3_OBJECTS = $(am_ep3_OBJECTS)
-ep3_DEPENDENCIES = xwc.o fisica.o display.o io.o objetos.o util.o \
-	keyboard.o game.o lex.yy.o
->>>>>>> 6537bca8482d370954da1a2c4503c5aa788699fe
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -120,11 +113,11 @@ am__v_P_1 = :
 AM_V_GEN = $(am__v_GEN_@AM_V@)
 am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
 am__v_GEN_0 = @echo "  GEN     " $@;
-am__v_GEN_1 = 
+am__v_GEN_1 =
 AM_V_at = $(am__v_at_@AM_V@)
 am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
-am__v_at_1 = 
+am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -134,13 +127,13 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 AM_V_CC = $(am__v_CC_@AM_V@)
 am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
 am__v_CC_0 = @echo "  CC      " $@;
-am__v_CC_1 = 
+am__v_CC_1 =
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
-am__v_CCLD_1 = 
+am__v_CCLD_1 =
 SOURCES = $(ep4_SOURCES)
 DIST_SOURCES = $(ep4_SOURCES)
 am__can_run_installinfo = \
@@ -279,13 +272,8 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-<<<<<<< HEAD
 ep4_SOURCES = ep4.c
 ep4_LDADD = xwc.o fisica.o display.o io.o objetos.o util.o keyboard.o game.o
-=======
-ep3_SOURCES = ep3.c
-ep3_LDADD = xwc.o fisica.o display.o io.o objetos.o util.o keyboard.o game.o lex.yy.o -lfl
->>>>>>> 6537bca8482d370954da1a2c4503c5aa788699fe
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -332,7 +320,7 @@ config.h: stamp-h1
 stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
 	@rm -f stamp-h1
 	cd $(top_builddir) && $(SHELL) ./config.status config.h
-$(srcdir)/config.h.in:  $(am__configure_deps) 
+$(srcdir)/config.h.in:  $(am__configure_deps)
 	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
 	rm -f stamp-h1
 	touch $@
@@ -382,7 +370,7 @@ uninstall-binPROGRAMS:
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 
-ep4$(EXEEXT): $(ep4_OBJECTS) $(ep4_DEPENDENCIES) $(EXTRA_ep4_DEPENDENCIES) 
+ep4$(EXEEXT): $(ep4_OBJECTS) $(ep4_DEPENDENCIES) $(EXTRA_ep4_DEPENDENCIES)
 	@rm -f ep4$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(ep4_OBJECTS) $(ep4_LDADD) $(LIBS)
 
