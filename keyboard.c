@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "keyboard.h"
 #include "fisica.h"
 #include "objetos.h"
 #include "game.h"
+#include "sounds.h"
 
 int opcao = 0;
 
@@ -14,10 +16,12 @@ void checkForMenuActions(WINDOW *w) {
         {
         case W_KEY:
         case UP_ARROW_KEY:
+            playSound(MENUCHANGE_SOUND);
             menuActions(w, 1);
             break;
         case DOWN_ARROW_KEY:
         case S_KEY:
+            playSound(MENUCHANGE_SOUND);
             menuActions(w, 0);
             break;
         case ENTER_KEY:

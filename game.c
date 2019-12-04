@@ -11,6 +11,7 @@
 #include "util.h"
 #include <X11/Xlib.h>
 #include "xwc.h"
+#include "sounds.h"
 
 #define OPTIONS_LIMIT 3
 
@@ -63,6 +64,7 @@ void menuActions(WINDOW *w, int acao) {
     if (acao == 0) selecionado = (selecionado + 1) % OPTIONS_LIMIT;
     else if (acao == 1) selecionado = (selecionado + OPTIONS_LIMIT - 1) % OPTIONS_LIMIT;
     else {
+        playSound(MENUSELECT_SOUND);
         switch (selecionado) {
             case JOGAR:
             gameLoop();

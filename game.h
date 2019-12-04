@@ -22,6 +22,7 @@ struct config {
     PlayerControls player2;
     int pauseKey;
     int numberOfLives;
+    int isSoundActive;
     double gameDuration;
     double duracaoProjetil;
 };

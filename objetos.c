@@ -9,6 +9,7 @@
 #include "util.h"
 #include "game.h"
 #include "debug.h"
+#include "sounds.h"
 
 Objeto *criaObjeto() {
     Objeto *novo = (Objeto *) mallocSafe(sizeof(Objeto));
@@ -115,6 +116,7 @@ void freeObjetos() {
 void disparaProjetil(Objeto *a) {
     Objeto *novo;
     if (getTick() - a->oNave->ultimoDisparo < TEMPO_DISP * FRAMES_PER_SECOND * TICKS_PER_FRAME) return;
+    playSound(LASER_SOUND);
     a->oNave->ultimoDisparo = getTick();
     novo = criaProjetil();
     novo->massa = 2;
@@ -135,6 +137,7 @@ void mataObjetos() {
             case NAVE:
                 if (!atual->alive) {
                     db(printf("Nave '%s' explodiu.\n", atual->oNave->nome));
+                    playSound(EXPLOSION_SOUND);
                     criaAnimacao(atual->pos, 15, 1, sprites.explosao);
                     objetos.nave[atual->oNave->id] = NULL;
                 }
