@@ -6,9 +6,13 @@
         Marcos Siolin Martins, 11221709
 */
 #include <stdlib.h>
+#include<stdio.h>
+#include "debug.h"
 #include "game.h"
+#include "scanner.h"
 
 int main() {
+    loadSettings();
     game();
     return EXIT_SUCCESS;
 }

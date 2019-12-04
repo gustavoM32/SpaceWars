@@ -23,7 +23,7 @@ void leiaArquivo() {
     for (i = 0; i < 2; i++) {
         fscanf(arquivo, "%s %lf %lf %lf %lf %lf", &(objetos.nave[i]->oNave->nome), &(objetos.nave[i]->massa), &(objetos.nave[i]->pos[0]), &(objetos.nave[i]->pos[1]), &(objetos.nave[i]->vel[0]), &(objetos.nave[i]->vel[1]));
     }
-    fscanf(arquivo, "%d %lf", &nProjeteis, &(config.duracaoProjetil));
+    fscanf(arquivo, "%d %lf", &nProjeteis, &(config.duracaoProjetil));    
 
     for (i = 0; i < nProjeteis; i++) {
         novo = criaProjetil();

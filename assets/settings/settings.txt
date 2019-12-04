@@ -1,0 +1,11 @@
+numberOfLives=3
+gameDuration=200000
+pauseKey=9
+player1 upKey=25
+player1 downKey=39
+player1 leftKey=38
+player1 rightKey=40
+player2 upKey=111
+player2 downKey=116
+player2 leftKey=113
+player2 rightKey=114

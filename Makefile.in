@@ -102,10 +102,17 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
+<<<<<<< HEAD
 am_ep4_OBJECTS = ep4.$(OBJEXT)
 ep4_OBJECTS = $(am_ep4_OBJECTS)
 ep4_DEPENDENCIES = xwc.o fisica.o display.o io.o objetos.o util.o \
 	keyboard.o game.o
+=======
+am_ep3_OBJECTS = ep3.$(OBJEXT)
+ep3_OBJECTS = $(am_ep3_OBJECTS)
+ep3_DEPENDENCIES = xwc.o fisica.o display.o io.o objetos.o util.o \
+	keyboard.o game.o lex.yy.o
+>>>>>>> 6537bca8482d370954da1a2c4503c5aa788699fe
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -272,8 +279,13 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+<<<<<<< HEAD
 ep4_SOURCES = ep4.c
 ep4_LDADD = xwc.o fisica.o display.o io.o objetos.o util.o keyboard.o game.o
+=======
+ep3_SOURCES = ep3.c
+ep3_LDADD = xwc.o fisica.o display.o io.o objetos.o util.o keyboard.o game.o lex.yy.o -lfl
+>>>>>>> 6537bca8482d370954da1a2c4503c5aa788699fe
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
