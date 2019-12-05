@@ -103,6 +103,7 @@ void gameLoop() {
         detectaColisoes();
         mataObjetos();
         if (tick % TICKS_PER_FRAME == 0) {
+            if(tick % TICKS_PER_FRAME*FRAMES_PER_SECOND == 0);
             PutPic(rasc, fundo, 0, 0, WIDTH, HEIGHT, 0, 0);
             imprimaObjetos(rasc);
             PutPic(w, rasc, 0, 0, WIDTH, HEIGHT, 0, 0);
