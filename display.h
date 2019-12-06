@@ -12,6 +12,7 @@
 #define NUM_ROTACOES 32
 #define MAX_FRAMES 32
 #define MAX_ANIMS 128
+#define OPTIONS_LIMIT 3
 
 typedef struct sprites {
     Sprite nave[2][NUM_ROTACOES];
@@ -21,6 +22,8 @@ typedef struct sprites {
 } Sprites;
 
 Sprites sprites;
+
+PIC botao[OPTIONS_LIMIT][2];
 
 /*
     carregaSprite()

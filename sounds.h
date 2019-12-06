@@ -6,6 +6,8 @@ enum{
     MENUCHANGE_SOUND
 };
 
+int musicDuration;
+
 void playSound(int sound);
 
 void checkForSoundPlayer();

@@ -54,9 +54,10 @@ void checkForActions(WINDOW *w) {
         if (key == config.player2.left) teclas[1][1] = 1;
         if (key == config.player2.down) teclas[1][2] = 1;
         if (key == config.player2.right) teclas[1][3] = 1;
+        if (key == config.pauseKey) goToMenu = 1;
     }
     if (WCheckKBDRelease(w)) {
-        key = WGetKeyRelease(w);        
+        key = WGetKeyRelease(w);
         if (key == config.player1.up) teclas[0][0] = 0;
         if (key == config.player1.left) teclas[0][1] = 0;
         if (key == config.player1.down) teclas[0][2] = 0;

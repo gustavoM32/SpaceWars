@@ -47,6 +47,13 @@ void carregaObjetos(PIC win) {
     carregaRots(win, "projetil1/projetil1", 50, 50, sprites.projetil);
     db(printf("Carregando explosion...\n"));
     carregaAnims(win, "exp/explosion", 15, 50, 60, sprites.explosao);
+    db(printf("Carregando botões do menu...\n"));
+    botao[0][0] = ReadPic(win, "assets/botoes/Jogar-off.xpm", NULL);
+    botao[0][1] = ReadPic(win, "assets/botoes/Jogar-on.xpm", NULL);
+    botao[1][0] = ReadPic(win, "assets/botoes/Opcoes-off.xpm", NULL);
+    botao[1][1] = ReadPic(win, "assets/botoes/Opcoes-on.xpm", NULL);
+    botao[2][0] = ReadPic(win, "assets/botoes/Sair-off.xpm", NULL);
+    botao[2][1] = ReadPic(win, "assets/botoes/Sair-on.xpm", NULL);
 }
 
 int calculaDirecaoN(double dir[2]) {
