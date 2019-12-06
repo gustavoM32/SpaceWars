@@ -42,7 +42,7 @@ void exitGame() {
     exit(EXIT_SUCCESS);
 }
 
-void menu(WINDOW *w) {
+void menuLoop(WINDOW *w) {
     tick = 0;
     while (1) {
         checkForMenuActions(w);
@@ -138,7 +138,7 @@ void game() {
     fundo = ReadPic(w, "assets/background.xpm", NULL);
     db(printf("Passo simulação = %lf\n", passoSimulacao));
 
-    menu(w);
+    menuLoop(w);
 
     exitGame();
 }
