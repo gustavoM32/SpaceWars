@@ -40,4 +40,14 @@ int mod(int a, int b);
 */
 double modD(double a, double b);
 
+/*
+    absD()
+
+    Retorna o módulo do número n.
+
+    Parâmetros:
+        n - real qualquer
+*/
+double absD(double n);
+
 #endif

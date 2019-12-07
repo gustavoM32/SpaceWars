@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <unistd.h>
 #include "game.h"
 #include "debug.h"
@@ -12,6 +13,7 @@
 #include <X11/Xlib.h>
 #include "xwc.h"
 #include "sounds.h"
+#include "ai.h"
 
 typedef enum {
     JOGAR,
@@ -133,6 +135,7 @@ void gameLoop() {
         while (endTick == -1 || tick <= endTick) {
             playMusic(1);
             // Se for pressionada a tecla para voltar ao menu
+            jogaAI();
             if (checkForActions(w)) {
                 freeObjetos();
                 playMusic(0);
@@ -212,8 +215,10 @@ void gameLoop() {
 }
 
 void game() {
+    srand(time(0));
     passoSimulacao = ticksToSegs(1);
     musicDuration = segsToTicks(34.0);
+    singleplayer = 1;
 
     w = InitGraph(WIDTH, HEIGHT, "Space Wars");
     InitKBD(w);

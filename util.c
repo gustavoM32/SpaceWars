@@ -20,3 +20,7 @@ int mod(int a, int b) {
 double modD(double a, double b) {
     return a > 0.0 ? fmod(a, b) : fmod((fmod(a, b) + b), b);
 }
+
+double absD(double n) {
+    return n > 0 ? n : -n;
+}

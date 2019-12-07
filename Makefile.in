@@ -105,7 +105,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am_ep4_OBJECTS = ep4.$(OBJEXT)
 ep4_OBJECTS = $(am_ep4_OBJECTS)
 ep4_DEPENDENCIES = xwc.o fisica.o display.o io.o objetos.o util.o \
-	keyboard.o game.o lex.yy.o sounds.o
+	keyboard.o game.o lex.yy.o sounds.o ai.o
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -273,7 +273,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ep4_SOURCES = ep4.c
-ep4_LDADD = xwc.o fisica.o display.o io.o objetos.o util.o keyboard.o game.o lex.yy.o sounds.o -lfl
+ep4_LDADD = xwc.o fisica.o display.o io.o objetos.o util.o keyboard.o game.o lex.yy.o sounds.o ai.o -lfl
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 

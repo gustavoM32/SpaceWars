@@ -28,6 +28,7 @@ struct config {
 };
 
 Config config;
+int singleplayer;
 
 /*
     getTick()

@@ -48,10 +48,12 @@ int checkForActions(WINDOW *w) {
         if (key == config.player1.left) teclas[0][1] = 1;
         if (key == config.player1.down) teclas[0][2] = 1;
         if (key == config.player1.right) teclas[0][3] = 1;
-        if (key == config.player2.up) teclas[1][0] = 1;
-        if (key == config.player2.left) teclas[1][1] = 1;
-        if (key == config.player2.down) teclas[1][2] = 1;
-        if (key == config.player2.right) teclas[1][3] = 1;
+        if (!singleplayer) {
+            if (key == config.player2.up) teclas[1][0] = 1;
+            if (key == config.player2.left) teclas[1][1] = 1;
+            if (key == config.player2.down) teclas[1][2] = 1;
+            if (key == config.player2.right) teclas[1][3] = 1;
+        }
         if (key == config.pauseKey) return 1;
     }
     if (WCheckKBDRelease(w)) {
@@ -60,10 +62,12 @@ int checkForActions(WINDOW *w) {
         if (key == config.player1.left) teclas[0][1] = 0;
         if (key == config.player1.down) teclas[0][2] = 0;
         if (key == config.player1.right) teclas[0][3] = 0;
-        if (key == config.player2.up) teclas[1][0] = 0;
-        if (key == config.player2.left) teclas[1][1] = 0;
-        if (key == config.player2.down) teclas[1][2] = 0;
-        if (key == config.player2.right) teclas[1][3] = 0;
+        if (!singleplayer) {
+            if (key == config.player2.up) teclas[1][0] = 0;
+            if (key == config.player2.left) teclas[1][1] = 0;
+            if (key == config.player2.down) teclas[1][2] = 0;
+            if (key == config.player2.right) teclas[1][3] = 0;
+        }
     }
     return 0;
 }
