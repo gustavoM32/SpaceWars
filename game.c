@@ -186,7 +186,7 @@ void gameLoop() {
         } else if (vidasP2 == 0) {
             PutPic(rasc, telaGanhador[1], 0, 0, WIDTH, HEIGHT, 0, 0);
         }
-        if (vidasP1 != 0 || vidasP2 != 0) imprimeFixed(rsac, &(sprites.trophy[tick / segsToTicks(0.02) % 60]), 0);
+        if (vidasP1 != 0 || vidasP2 != 0) imprimeFixed(rasc, &(sprites.trophy[tick / segsToTicks(0.02) % 60]), 0);
         PutPic(w, rasc, 0, 0, WIDTH, HEIGHT, 0, 0);
         usleep(1000000.0 * passoSimulacao);
     }
