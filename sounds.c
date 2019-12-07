@@ -26,6 +26,12 @@ void playSound(int sound){
         case MENUCHANGE_SOUND:
             system("aplay -q assets/sounds/menuchange.wav & exit");
             break;
+        case VICTORY_SOUND:
+            system("aplay -q assets/sounds/victory.wav & exit");
+            break;
+        case COUNTDOWN_SOUND:
+            system("aplay -q assets/sounds/countdown.wav & exit");
+            break;
         default:
             break;
         }

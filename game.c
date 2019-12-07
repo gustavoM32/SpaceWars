@@ -111,7 +111,7 @@ void endGame() {
 
 void gameLoop() {
     int i;
-    int roundStart;
+    int roundStart, countdown = 0, victory = 0;
     tick = 0;
     vidasP1 = vidasP2 = 3;
     XAutoRepeatOff(getDisplay());
@@ -129,13 +129,14 @@ void gameLoop() {
         roundStart = tick;
         playMusic(1);
         while (endTick == -1 || tick <= endTick) {
+            playMusic(1);
             if (checkForActions(w)) {
                 freeObjetos();
                 playMusic(0);
                 XAutoRepeatOn(getDisplay());
                 return;
             }
-            if (tick - roundStart >= segsToTicks(4.0)) atualizaPosicoes();
+            if (tick - roundStart >= segsToTicks(4.0)){ atualizaPosicoes(); countdown = 0;}
             detectaColisoes();
             mataObjetos();
             if (tick % TICKS_PER_FRAME == 0) {
@@ -147,6 +148,7 @@ void gameLoop() {
                 for (i = 0; i < vidasP2; i++)
                     imprimeFixed(rasc, &(sprites.coracao), 3+i);
                 if (tick - roundStart < segsToTicks(4.0)) {
+                    if(!countdown){ playSound(COUNTDOWN_SOUND); countdown = 1;}
                     switch ((tick - roundStart)/ segsToTicks(1.0)) {
                         case 0:
                         imprimeFixed(rasc, sprites.contagem+2, 0);
@@ -180,17 +182,20 @@ void gameLoop() {
     tick = 0;
     while (tick++ < segsToTicks(5.0)) {
         if (vidasP1 == 0 && vidasP2 == 0) {
+            if(!victory) { victory = 1; playMusic(0); playSound(VICTORY_SOUND);}
             PutPic(rasc, telaGanhador[0], 0, 0, WIDTH, HEIGHT, 0, 0);
         } else if (vidasP1 == 0) {
+            if(!victory) { victory = 1; playMusic(0); playSound(VICTORY_SOUND);}
             PutPic(rasc, telaGanhador[2], 0, 0, WIDTH, HEIGHT, 0, 0);
         } else if (vidasP2 == 0) {
+            if(!victory) { victory = 1; playMusic(0); playSound(VICTORY_SOUND);}
             PutPic(rasc, telaGanhador[1], 0, 0, WIDTH, HEIGHT, 0, 0);
         }
         if (vidasP1 != 0 || vidasP2 != 0) imprimeFixed(rasc, &(sprites.trophy[tick / segsToTicks(0.02) % 60]), 0);
         PutPic(w, rasc, 0, 0, WIDTH, HEIGHT, 0, 0);
         usleep(1000000.0 * passoSimulacao);
     }
-
+    victory = 0;
     playMusic(0);
     XAutoRepeatOn(getDisplay());
 }
