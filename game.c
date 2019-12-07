@@ -199,7 +199,7 @@ void game() {
     passoSimulacao = ticksToSegs(1);
     musicDuration = segsToTicks(34.0);
 
-    w = InitGraph(WIDTH, HEIGHT, "Space Game");
+    w = InitGraph(WIDTH, HEIGHT, "Space Wars");
     InitKBD(w);
     rasc = NewPic(w, WIDTH, HEIGHT);
     carregaObjetos(w);
