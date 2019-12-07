@@ -37,6 +37,8 @@ void carregaAnims(PIC win, char nome[], int frames, int width, int height, Sprit
 }
 
 void carregaObjetos(PIC win) {
+    int i, j;
+    char nome[100];
     db(printf("Carregando planeta...\n"));
     carregaSprite(win, "planeta/planeta", 100, 100, &(sprites.planetaS));
     db(printf("Carregando nave1...\n"));
@@ -47,13 +49,51 @@ void carregaObjetos(PIC win) {
     carregaRots(win, "projetil1/projetil1", 50, 50, sprites.projetil);
     db(printf("Carregando explosion...\n"));
     carregaAnims(win, "exp/explosion", 15, 50, 60, sprites.explosao);
+
     db(printf("Carregando botões do menu...\n"));
-    botao[0][0] = ReadPic(win, "assets/botoes/Jogar-off.xpm", NULL);
-    botao[0][1] = ReadPic(win, "assets/botoes/Jogar-on.xpm", NULL);
-    botao[1][0] = ReadPic(win, "assets/botoes/Opcoes-off.xpm", NULL);
-    botao[1][1] = ReadPic(win, "assets/botoes/Opcoes-on.xpm", NULL);
-    botao[2][0] = ReadPic(win, "assets/botoes/Sair-off.xpm", NULL);
-    botao[2][1] = ReadPic(win, "assets/botoes/Sair-on.xpm", NULL);
+    carregaSprite(win, "botoes/Jogar-off", 200, 100, &(sprites.botao[0][0].s));
+    carregaSprite(win, "botoes/Jogar-on", 200, 100, &(sprites.botao[0][1].s));
+    carregaSprite(win, "botoes/Ajuda-off", 200, 100, &(sprites.botao[1][0].s));
+    carregaSprite(win, "botoes/Ajuda-on", 200, 100, &(sprites.botao[1][1].s));
+    carregaSprite(win, "botoes/Sair-off", 200, 100, &(sprites.botao[2][0].s));
+    carregaSprite(win, "botoes/Sair-on", 200, 100, &(sprites.botao[2][1].s));
+
+    db(printf("Carregando coração S2...\n"));
+    carregaSprite(win, "coracao/coracao", 50, 40, &(sprites.coracao.s));
+
+    db(printf("Carregando contagem...\n"));
+    carregaSprite(win, "contagem/contagem - 1", 200, 200, &(sprites.contagem[0].s));
+    carregaSprite(win, "contagem/contagem - 2", 200, 200, &(sprites.contagem[1].s));
+    carregaSprite(win, "contagem/contagem - 3", 200, 200, &(sprites.contagem[2].s));
+    for (i = 0; i < 3; i++) {
+        sprites.contagem[i].pos[0][0] = WIDTH/2;
+        sprites.contagem[i].pos[0][1] = HEIGHT/2;
+    }
+    carregaSprite(win, "contagem/go", 404, 246, &(sprites.go.s));
+    sprites.go.pos[0][0] = WIDTH/2;
+    sprites.go.pos[0][1] = HEIGHT/2;
+
+    db(printf("Carregando trophy...\n"));
+    for (i = 0; i < 60; i++) {
+        sprintf(nome, "trophy/%d", i);
+        carregaSprite(win, nome, 100, 100, &(sprites.trophy[i].s));
+        sprites.trophy[i].pos[0][0] = WIDTH/2;
+        sprites.trophy[i].pos[0][1] = HEIGHT/2 - 100;
+    }
+
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 2; j++) {
+            sprites.botao[i][j].pos[0][0] = WIDTH/2;
+            sprites.botao[i][j].pos[0][1] = HEIGHT/2 + (i - 1)*120;
+        }
+    }
+
+    for (i = 0; i < 3; i++) {
+        sprites.coracao.pos[i][0] = 40 + 40*i;
+        sprites.coracao.pos[i][1] = 30;
+        sprites.coracao.pos[3+i][0] = WIDTH - 40 - 40*i;
+        sprites.coracao.pos[3+i][1] = 30;
+    }
 }
 
 int calculaDirecaoN(double dir[2]) {
@@ -82,9 +122,17 @@ void imprimeSprite(PIC dest, Objeto *obj, int ind) {
     UnSetMask(dest);
 }
 
+void imprimeFixed(PIC dest, Fixed *fixed, int ind) {
+    if (fixed->s.mask == NULL) return;
+    SetMask(dest, fixed->s.mask);
+    PutPic(dest, fixed->s.img, 0, 0, fixed->s.width, fixed->s.height, fixed->pos[ind][0] - fixed->s.width/2, fixed->pos[ind][1] - fixed->s.height/2);
+    UnSetMask(dest);
+}
+
 void imprimaObjetos(PIC pic) {
     Objeto *obj;
     double vet[2];
+    int i, j;
     for (obj = objetos.iniObjs->prox; obj != NULL; obj = obj->prox) {
         switch (obj->categoria) {
             case PLANETA:

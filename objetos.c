@@ -11,7 +11,7 @@
 #include "debug.h"
 #include "sounds.h"
 
-Objeto *criaObjeto() {
+Objeto *criaObjeto(int addObjs) {
     Objeto *novo = (Objeto *) mallocSafe(sizeof(Objeto));
     int i;
     novo->massa = 0.0;
@@ -22,13 +22,15 @@ Objeto *criaObjeto() {
         novo->res[i] = 0.0;
     }
     novo->alive = 1;
-    novo->prox = NULL;
-    objetos.fimObjs = objetos.fimObjs->prox = novo;
+    if (addObjs) {
+        novo->prox = NULL;
+        objetos.fimObjs = objetos.fimObjs->prox = novo;
+    }
     return novo;
 }
 
 Objeto *criaNave(int id) {
-    Objeto *novo = criaObjeto();
+    Objeto *novo = criaObjeto(1);
     novo->categoria = NAVE;
     novo->raio = 15;
     novo->s = sprites.nave[id];
@@ -41,7 +43,7 @@ Objeto *criaNave(int id) {
 }
 
 Objeto *criaProjetil() {
-    Objeto *novo = criaObjeto();
+    Objeto *novo = criaObjeto(1);
     novo->categoria = PROJETIL;
     novo->s = sprites.projetil;
     novo->raio = 4;
@@ -52,7 +54,7 @@ Objeto *criaProjetil() {
 }
 
 Objeto *criaAnimacao(double pos[], int frames, double duracao, Sprite *s) {
-    Objeto *novo = criaObjeto();
+    Objeto *novo = criaObjeto(1);
     novo->oAnim = (Animacao *) mallocSafe(sizeof(Animacao));
     novo->s = s;
     novo->categoria = ANIMACAO;
@@ -65,11 +67,11 @@ Objeto *criaAnimacao(double pos[], int frames, double duracao, Sprite *s) {
 }
 
 void criaObjetos() {
-    int i;
+    int i, j;
     objetos.fimObjs = objetos.iniObjs = (Objeto *) mallocSafe(sizeof(Objeto));
     objetos.iniObjs->prox = NULL;
 
-    objetos.planeta = criaObjeto();
+    objetos.planeta = criaObjeto(1);
     objetos.planeta->categoria = PLANETA;
     objetos.planeta->s = &(sprites.planetaS);
     objetos.planeta->raio = 45;

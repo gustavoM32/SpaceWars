@@ -3,6 +3,7 @@
 
 #include "xwc.h"
 #include "fisica.h"
+#include "objetos.h"
 
 #define WIDTH 1000
 #define HEIGHT 600
@@ -12,18 +13,25 @@
 #define NUM_ROTACOES 32
 #define MAX_FRAMES 32
 #define MAX_ANIMS 128
-#define OPTIONS_LIMIT 3
+
+typedef struct fixed {
+    Sprite s;
+    int pos[32][2];
+} Fixed;
 
 typedef struct sprites {
     Sprite nave[2][NUM_ROTACOES];
     Sprite projetil[NUM_ROTACOES];
     Sprite planetaS;
     Sprite explosao[MAX_FRAMES];
+    Fixed contagem[3];
+    Fixed go;
+    Fixed botao[OPTIONS_LIMIT][2];
+    Fixed coracao;
+    Fixed trophy[60];
 } Sprites;
 
 Sprites sprites;
-
-PIC botao[OPTIONS_LIMIT][2];
 
 /*
     carregaSprite()
@@ -109,6 +117,17 @@ int calculaFrame(Objeto *obj);
         ind - posição do sprite no vetor de sprites do objeto
 */
 void imprimeSprite(PIC dest, Objeto *obj, int ind);
+
+/*
+    imprimeFixed()
+
+    Imprime o objeto fixo fixed em dest.
+
+    Parâmetros:
+        dest - PIC em que será impresso o sprite
+        fixed - objeto fixo a ser impresso
+*/
+void imprimeFixed(PIC dest, Fixed *fixed, int ind);
 
 /*
     imprimaObjetos()

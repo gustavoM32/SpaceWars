@@ -15,7 +15,7 @@
 
 typedef enum {
     JOGAR,
-    OPCOES,
+    AJUDA,
     SAIR
 } SELECAO;
 
@@ -24,10 +24,15 @@ int selecionado = JOGAR;
 static int tick = 0;
 int loser = 0;
 int endTick;
+int vidasP1 = 3;
+int vidasP2 = 3;
 
 WINDOW *w;
 PIC rasc;
 PIC fundo;
+PIC ajudaFundo;
+PIC intro;
+PIC telaGanhador[3];
 
 int getTick() {
     return tick;
@@ -49,14 +54,15 @@ void exitGame() {
 }
 
 void menuLoop(WINDOW *w) {
+    int i;
     tick = 0;
     while (1) {
         checkForMenuActions(w);
         if (tick % TICKS_PER_FRAME == 0) {
             PutPic(rasc, fundo, 0, 0, WIDTH, HEIGHT, 0, 0);
-            PutPic(rasc, botao[0][selecionado == JOGAR], 0, 0, 190, 90, WIDTH/2 - 95, HEIGHT/2 - 100 - 45);
-            PutPic(rasc, botao[1][selecionado == OPCOES], 0, 0, 190, 90, WIDTH/2 - 95, HEIGHT/2 - 45);
-            PutPic(rasc, botao[2][selecionado == SAIR], 0, 0, 190, 90, WIDTH/2 - 95, HEIGHT/2 + 100 - 45);
+            for (i = 0; i < 3; i++) {
+                imprimeFixed(rasc, &(sprites.botao[i][i == selecionado]), 0);
+            }
             //imprimaObjetos(rasc);
             PutPic(w, rasc, 0, 0, WIDTH, HEIGHT, 0, 0);
         }
@@ -75,7 +81,11 @@ void menuActions(WINDOW *w, int acao) {
             case JOGAR:
             gameLoop();
             break;
-            case OPCOES:
+            case AJUDA:
+            PutPic(w, ajudaFundo, 0, 0, WIDTH, HEIGHT, 0, 0);
+            while (1) {
+                if (WCheckKBDPress(w) && WGetKeyPress(w) == config.pauseKey) break;
+            }
             break;
             case SAIR:
             exitGame();
@@ -84,50 +94,103 @@ void menuActions(WINDOW *w, int acao) {
     }
 }
 
-
 void endGame() {
     endTick = tick + segsToTicks(3.0);
     if (loser == 1) {
-        printf("Nave '%s' ganhou!\n", objetos.nave[1]->oNave->nome);
+        vidasP1--;
+        printf("Nave 1 perdeu uma vida!\n");
     } else if (loser == 2) {
-        printf("Nave '%s' ganhou!\n", objetos.nave[0]->oNave->nome);
+        vidasP2--;
+        printf("Nave 2 perdeu uma vida!\n");
     } else {
-        printf("Ambas perderam!\n");
+        vidasP1--;
+        vidasP2--;
+        printf("As duas naves perderam uma vida!\n");
     }
 }
 
 void gameLoop() {
+    int i;
+    int roundStart;
     tick = 0;
-    loser = 0;
-    endTick = -1;
-    criaObjetos();
+    vidasP1 = vidasP2 = 3;
     XAutoRepeatOff(getDisplay());
-    iniciaTeclas();
-    while (endTick == -1 || tick <= endTick) {
-        playMusic(1);
-        checkForActions(w);
-        if (goToMenu) {
-            goToMenu = 0;
-            break;
-        }
-        atualizaPosicoes();
-        detectaColisoes();
-        mataObjetos();
-        if (tick % TICKS_PER_FRAME == 0) {
-            if(tick % TICKS_PER_FRAME*FRAMES_PER_SECOND == 0);
-            PutPic(rasc, fundo, 0, 0, WIDTH, HEIGHT, 0, 0);
-            imprimaObjetos(rasc);
-            PutPic(w, rasc, 0, 0, WIDTH, HEIGHT, 0, 0);
-        }
-        if (endTick == -1) {
-            loser += objetos.nave[0] == NULL ? 1 : 0;
-            loser += objetos.nave[1] == NULL ? 2 : 0;
-            if (loser != 0) endGame();
-        }
+    PutPic(w, intro, 0, 0, WIDTH, HEIGHT, 0, 0);
+    while (tick++ < segsToTicks(20.0) && !checkForActions(w)) {
         usleep(1000000.0 * passoSimulacao);
-        tick++;
     }
-    freeObjetos();
+    tick = 0;
+    while (vidasP1 > 0 && vidasP2 > 0) {
+        criaObjetos();
+        iniciaTeclas();
+        db(printf("Vidas P1 = %d   Vidas P2 = %d\n", vidasP1, vidasP2));
+        loser = 0;
+        endTick = -1;
+        roundStart = tick;
+        playMusic(1);
+        while (endTick == -1 || tick <= endTick) {
+            if (checkForActions(w)) {
+                freeObjetos();
+                playMusic(0);
+                XAutoRepeatOn(getDisplay());
+                return;
+            }
+            if (tick - roundStart >= segsToTicks(4.0)) atualizaPosicoes();
+            detectaColisoes();
+            mataObjetos();
+            if (tick % TICKS_PER_FRAME == 0) {
+                if(tick % TICKS_PER_FRAME*FRAMES_PER_SECOND == 0);
+                PutPic(rasc, fundo, 0, 0, WIDTH, HEIGHT, 0, 0);
+                imprimaObjetos(rasc);
+                for (i = 0; i < vidasP1; i++)
+                    imprimeFixed(rasc, &(sprites.coracao), i);
+                for (i = 0; i < vidasP2; i++)
+                    imprimeFixed(rasc, &(sprites.coracao), 3+i);
+                if (tick - roundStart < segsToTicks(4.0)) {
+                    switch ((tick - roundStart)/ segsToTicks(1.0)) {
+                        case 0:
+                        imprimeFixed(rasc, sprites.contagem+2, 0);
+                        break;
+                        case 1:
+                        imprimeFixed(rasc, sprites.contagem+1, 0);
+                        break;
+                        case 2:
+                        imprimeFixed(rasc, sprites.contagem+0, 0);
+                        break;
+                        case 3:
+                        imprimeFixed(rasc, &(sprites.go), 0);
+                        break;
+                        default:
+                        break;
+                    }
+                }
+                PutPic(w, rasc, 0, 0, WIDTH, HEIGHT, 0, 0);
+
+            }
+            if (endTick == -1) {
+                loser += objetos.nave[0] == NULL ? 1 : 0;
+                loser += objetos.nave[1] == NULL ? 2 : 0;
+                if (loser != 0) endGame();
+            }
+            usleep(1000000.0 * passoSimulacao);
+            tick++;
+        }
+        freeObjetos();
+    }
+    tick = 0;
+    while (tick++ < segsToTicks(5.0)) {
+        if (vidasP1 == 0 && vidasP2 == 0) {
+            PutPic(rasc, telaGanhador[0], 0, 0, WIDTH, HEIGHT, 0, 0);
+        } else if (vidasP1 == 0) {
+            PutPic(rasc, telaGanhador[2], 0, 0, WIDTH, HEIGHT, 0, 0);
+        } else if (vidasP2 == 0) {
+            PutPic(rasc, telaGanhador[1], 0, 0, WIDTH, HEIGHT, 0, 0);
+        }
+        if (vidasP1 != 0 || vidasP2 != 0) imprimeFixed(rsac, &(sprites.trophy[tick / segsToTicks(0.02) % 60]), 0);
+        PutPic(w, rasc, 0, 0, WIDTH, HEIGHT, 0, 0);
+        usleep(1000000.0 * passoSimulacao);
+    }
+
     playMusic(0);
     XAutoRepeatOn(getDisplay());
 }
@@ -135,15 +198,22 @@ void gameLoop() {
 void game() {
     passoSimulacao = ticksToSegs(1);
     musicDuration = segsToTicks(34.0);
-    goToMenu = 0;
 
-    w = InitGraph(WIDTH, HEIGHT, "My windows xp");
+    w = InitGraph(WIDTH, HEIGHT, "Space Game");
     InitKBD(w);
     rasc = NewPic(w, WIDTH, HEIGHT);
     carregaObjetos(w);
 
     db(printf("Carregando assets/background.xpm...\n"));
     fundo = ReadPic(w, "assets/background.xpm", NULL);
+    db(printf("Carregando assets/ajuda.xpm...\n"));
+    ajudaFundo = ReadPic(w, "assets/ajuda.xpm", NULL);
+    db(printf("Carregando assets/intro.xpm...\n"));
+    intro = ReadPic(w, "assets/intro.xpm", NULL);
+    db(printf("Carregando telas finais...\n"));
+    telaGanhador[0] = ReadPic(w, "assets/empate.xpm", NULL);
+    telaGanhador[1] = ReadPic(w, "assets/nave1ganhou.xpm", NULL);
+    telaGanhador[2] = ReadPic(w, "assets/nave2ganhou.xpm", NULL);
     db(printf("Passo simulação = %lf\n", passoSimulacao));
 
     menuLoop(w);

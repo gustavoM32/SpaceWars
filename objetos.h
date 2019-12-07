@@ -3,6 +3,7 @@
 
 #include "xwc.h"
 
+#define OPTIONS_LIMIT 3
 #define TEMPO_DISP 0.5
 
 typedef enum categoria Categoria;
@@ -11,6 +12,7 @@ typedef struct objeto Objeto;
 typedef struct nave Nave;
 typedef struct projetil Projetil;
 typedef struct animacao Animacao;
+typedef struct botao Botao;
 typedef struct objetos Objetos;
 typedef union subObj SubObj;
 

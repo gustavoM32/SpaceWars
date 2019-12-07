@@ -42,7 +42,7 @@ void iniciaTeclas() {
     }
 }
 
-void checkForActions(WINDOW *w) {
+int checkForActions(WINDOW *w) {
     int key;
     if (WCheckKBDPress(w)) {
         key = WGetKeyPress(w);
@@ -54,7 +54,7 @@ void checkForActions(WINDOW *w) {
         if (key == config.player2.left) teclas[1][1] = 1;
         if (key == config.player2.down) teclas[1][2] = 1;
         if (key == config.player2.right) teclas[1][3] = 1;
-        if (key == config.pauseKey) goToMenu = 1;
+        if (key == config.pauseKey) return 1;
     }
     if (WCheckKBDRelease(w)) {
         key = WGetKeyRelease(w);
@@ -67,4 +67,5 @@ void checkForActions(WINDOW *w) {
         if (key == config.player2.down) teclas[1][2] = 0;
         if (key == config.player2.right) teclas[1][3] = 0;
     }
+    return 0;
 }

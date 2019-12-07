@@ -36,12 +36,13 @@ void iniciaTeclas();
 
     Checa se a ultima tecla pressionada e' uma acao valida das naves
     (movimentacao ou atirar), se for realiza a acao da respectiva nave.
+    Retorna 1 se foi clicada a tecla de pausa.
     Assume que InitKDB() ja foi dado
 
     Parametros:
         WINDOW *w - ponteiro para a janela de onde serao identificadas as teclas
 */
-void checkForActions(WINDOW *w);
+int checkForActions(WINDOW *w);
 
 /*
     naveAc()

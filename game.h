@@ -28,7 +28,6 @@ struct config {
 };
 
 Config config;
-int goToMenu;
 
 /*
     getTick()
