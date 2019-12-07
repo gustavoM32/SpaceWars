@@ -126,6 +126,7 @@ void imprimeSprite(PIC dest, Objeto *obj, int ind);
     Parâmetros:
         dest - PIC em que será impresso o sprite
         fixed - objeto fixo a ser impresso
+        ind - índice da posição onde o fixed deve ser impresso
 */
 void imprimeFixed(PIC dest, Fixed *fixed, int ind);
 

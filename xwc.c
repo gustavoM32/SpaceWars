@@ -345,8 +345,6 @@ KeySym WLastKeySym()
 void InitKBD(WINDOW *w) //Função editada
 {
   XSelectInput (display, w->ptr.window, KeyPressMask|KeyReleaseMask);
-  
-  /* XSelectInput (display, w->ptr.window, KeyPressMask); */
 }
 
 KeySym keyP;

@@ -6,8 +6,6 @@
 #include "game.h"
 #include "sounds.h"
 
-int opcao = 0;
-
 void checkForMenuActions(WINDOW *w) {
     int key;
     if(WCheckKBDPress(w)){

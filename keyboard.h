@@ -1,3 +1,6 @@
+#ifndef KEYBOARD_H
+#define KEYBOARD_H
+
 #include "xwc.h"
 #define W_KEY 25
 #define A_KEY 38
@@ -20,7 +23,7 @@ int teclas[2][4];
     Assume que InitKDB() ja foi dado
 
     Parametros:
-        WINDOW *w - ponteiro para a janela de onde serao identificadas as teclas
+        w - ponteiro para a janela de onde serao identificadas as teclas
 */
 void checkForMenuActions(WINDOW *w);
 
@@ -40,13 +43,8 @@ void iniciaTeclas();
     Assume que InitKDB() ja foi dado
 
     Parametros:
-        WINDOW *w - ponteiro para a janela de onde serao identificadas as teclas
+        w - ponteiro para a janela de onde serao identificadas as teclas
 */
 int checkForActions(WINDOW *w);
 
-/*
-    naveAc()
-
-    Realiza as acoes das naves.
-*/
-void naveAc();
+#endif

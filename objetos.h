@@ -79,9 +79,12 @@ Objetos objetos;
 /*
     criaObjeto()
 
-    Cria um novo objeto e adiciona ele na lista ligada de objetos.
- */
-Objeto *criaObjeto();
+    Cria um novo objeto e adiciona ou não ele na lista ligada de objetos.
+
+    Parâmetros:
+        addObjs - se 1 adiciona na lista de objetos, se 0 não.
+*/
+Objeto *criaObjeto(int addObjs);
 
 /*
     criaNave()

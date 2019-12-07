@@ -49,7 +49,7 @@ double ticksToSegs(int ticks);
 /*
     segsToTicks()
 
-    Converte o número de segundos para tick.
+    Converte o número de segundos para ticks.
 
     Parametros:
         segs - número de segudos
@@ -57,17 +57,28 @@ double ticksToSegs(int ticks);
 int segsToTicks(double segs);
 
 /*
-    menuActions()
+    menuLoop()
 
-    realiza a acao 'acao'
+    Loop para mostrar o menu.
 
     Parametros:
-        WINDOW *w - ponteiro para a janela de onde serao identificadas as teclas
-        int acao - codigo da acao a ser realizada:
+        w - ponteiro para a janela do menu
+*/
+void menuLoop(WINDOW *w);
+
+/*
+    menuActions()
+
+    Realiza a acao 'acao'
+
+    Parametros:
+        w - ponteiro para a janela de onde serao identificadas as teclas
+        acao - codigo da acao a ser realizada:
             0 = desce a seta
             1 = sobe a seta
             2 = confirma opcao
 */
+void menuActions(WINDOW *w, int acao);
 
 /*
     exitGame()
@@ -76,12 +87,10 @@ int segsToTicks(double segs);
 */
 void exitGame();
 
-void menuActions(WINDOW *w, int acao);
-
 /*
     gameLoop()
 
-    Executa o loop principal do jogo.
+    Executa o loop do jogo.
 */
 void gameLoop();
 

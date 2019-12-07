@@ -10,8 +10,31 @@ enum{
 
 int musicDuration;
 
-void playSound(int sound);
 
+/*
+    checkForSoundPlayer()
+
+    Checa se o usuário tem o programa para tocar sons.
+*/
 void checkForSoundPlayer();
 
+/*
+    playSound()
+
+    Toca o som especificado
+
+    Parâmetros:
+        sound - número identificador do som.
+*/
+void playSound(int sound);
+
+/*
+    playMusic()
+
+    Se play = 1, toca o som se não tiver tocando.
+    Se play = 0, para o som.
+
+    Parâmetros:
+        play - booleana se deve tocar ou parar.
+*/
 void playMusic(int play);

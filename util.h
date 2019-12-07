@@ -10,6 +10,8 @@
 /*
     mallocSafe()
 
+    Aloca espaço na memória, saindo do programa se ocorrer um erro.
+
     Fonte:  http://www.ime.usp.br/~pf/algoritmos/aulas/aloca.html
 */
 void *mallocSafe(size_t tam);

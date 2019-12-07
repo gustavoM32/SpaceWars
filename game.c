@@ -63,7 +63,6 @@ void menuLoop(WINDOW *w) {
             for (i = 0; i < 3; i++) {
                 imprimeFixed(rasc, &(sprites.botao[i][i == selecionado]), 0);
             }
-            //imprimaObjetos(rasc);
             PutPic(w, rasc, 0, 0, WIDTH, HEIGHT, 0, 0);
         }
         usleep(1000000.0 * passoSimulacao);
@@ -115,11 +114,13 @@ void gameLoop() {
     tick = 0;
     vidasP1 = vidasP2 = 3;
     XAutoRepeatOff(getDisplay());
+    // Tela de história do jogo
     PutPic(w, intro, 0, 0, WIDTH, HEIGHT, 0, 0);
     while (tick++ < segsToTicks(20.0) && !checkForActions(w)) {
         usleep(1000000.0 * passoSimulacao);
     }
     tick = 0;
+    // Loop do jogo
     while (vidasP1 > 0 && vidasP2 > 0) {
         criaObjetos();
         iniciaTeclas();
@@ -128,15 +129,20 @@ void gameLoop() {
         endTick = -1;
         roundStart = tick;
         playMusic(1);
+        // Loop da rodada
         while (endTick == -1 || tick <= endTick) {
             playMusic(1);
+            // Se for pressionada a tecla para voltar ao menu
             if (checkForActions(w)) {
                 freeObjetos();
                 playMusic(0);
                 XAutoRepeatOn(getDisplay());
                 return;
             }
-            if (tick - roundStart >= segsToTicks(4.0)){ atualizaPosicoes(); countdown = 0;}
+            if (tick - roundStart >= segsToTicks(4.0)) {
+                atualizaPosicoes();
+                countdown = 0;
+            }
             detectaColisoes();
             mataObjetos();
             if (tick % TICKS_PER_FRAME == 0) {
@@ -147,8 +153,12 @@ void gameLoop() {
                     imprimeFixed(rasc, &(sprites.coracao), i);
                 for (i = 0; i < vidasP2; i++)
                     imprimeFixed(rasc, &(sprites.coracao), 3+i);
+                // Se está no começo da rodada, mostra a contagem
                 if (tick - roundStart < segsToTicks(4.0)) {
-                    if(!countdown){ playSound(COUNTDOWN_SOUND); countdown = 1;}
+                    if(!countdown) {
+                        playSound(COUNTDOWN_SOUND);
+                        countdown = 1;
+                    }
                     switch ((tick - roundStart)/ segsToTicks(1.0)) {
                         case 0:
                         imprimeFixed(rasc, sprites.contagem+2, 0);
@@ -167,8 +177,8 @@ void gameLoop() {
                     }
                 }
                 PutPic(w, rasc, 0, 0, WIDTH, HEIGHT, 0, 0);
-
             }
+            // Verifica se alguém perdeu
             if (endTick == -1) {
                 loser += objetos.nave[0] == NULL ? 1 : 0;
                 loser += objetos.nave[1] == NULL ? 2 : 0;
@@ -180,6 +190,7 @@ void gameLoop() {
         freeObjetos();
     }
     tick = 0;
+    // Mostra tela final
     while (tick++ < segsToTicks(5.0)) {
         if (vidasP1 == 0 && vidasP2 == 0) {
             if(!victory) { victory = 1; playMusic(0); playSound(VICTORY_SOUND);}
@@ -209,6 +220,7 @@ void game() {
     rasc = NewPic(w, WIDTH, HEIGHT);
     carregaObjetos(w);
 
+    // Carrega fundos das telas
     db(printf("Carregando assets/background.xpm...\n"));
     fundo = ReadPic(w, "assets/background.xpm", NULL);
     db(printf("Carregando assets/ajuda.xpm...\n"));
