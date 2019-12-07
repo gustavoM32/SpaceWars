@@ -5,10 +5,8 @@
 ================================================================================================
 
 
-Esse diretório contém o que foi desenvolvido na terceira fase do projeto
+Esse diretório contém o que foi desenvolvido na quarta fase do projeto
 para a disciplina MAC0216 - Técnicas de programação 1.
-Nessa fase fizemos a verificação de colisões e adicionamos os controles das naves.
-O jogo acontece em 3 rodadas e fecha quando acabam.
 
 Integrantes:
 Gustavo de Medeiros Carlos <gustavo.10.dmc@usp.br> NUSP: 11276298
@@ -18,10 +16,15 @@ Marcos Siolin Martins <siolinm@usp.br> NUSP: 11221709
 Para rodar:
   1 - Executar ./build.sh
   (vai rodar ./configure e make)
-  As bibliotecas libxpm4 e libxpm-dev são necessárias
-  2 - Executar ./ep3
+  As bibliotecas libxpm4 e libxpm-dev são necessárias (outra coisa necessária é ter o aplay instalado, para poder ouvir os sons que funcionam somente em distribuições linux)
+  2 - Executar ./ep4
   3 - As teclas WASD controlam a nave azul e as setas controlam a nave rosa
         W (cima) - acelera
         A (esquerda) - rotaciona no sentido anti-horário
         S (baixo) - atira
         D (direita) - rotaciona no sentido horário
+  4 - O jogo contém uma tela de apresentação, onde o jogador pode escolher entre jogar, ajuda e sair (move com W e S ou com seta para cima e seta para baixo). Também conta com um placar (são as vidas das naves) e uma tela de final de jogo informando a nave vencedora. Efeitos (como explosões também estão presentes no jogo).
+  5 - Coisas a mais:
+	- arquivo de inicialização tratado usando flex (settings.l, o arquivo de configurações está em assets/settings/settings.txt e as únicas configurações úteis são os códigos de teclas do jogador, experimente mudar o downkey do player 1 de 39 para 41 [tecla S para tecla F para atirar])
+	- script para gerar rotações das imagens convertendo-as para xpm
+	- o jogo contém sons, porém é necessário que o aplay esteja instalado para que possam ser feitas chamadas à ele
