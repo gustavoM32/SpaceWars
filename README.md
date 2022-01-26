@@ -6,6 +6,7 @@
 ## Installation
 ```
 ./configure
+autoreconf -ivf
 make
 ./ep4
 ```
