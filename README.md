@@ -1,2 +1,12 @@
 # TecProg-EP4
-Fase 4 do projeto do Gubi
+
+## Dependencies
+```libxpm4 libxpm-dev flex```
+
+## Installation
+```
+./configure
+make
+./ep4
+```
+
